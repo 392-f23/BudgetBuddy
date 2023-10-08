@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Grid, TextField, Typography } from "@mui/material";
 
-const Expense = ({ expense, value }) => {
+const Expense = ({ expense }) => {
+  const [key, value] = expense;
   const [amount, setAmount] = useState(value);
 
   const handleChange = (event) => {
