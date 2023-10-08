@@ -21,7 +21,7 @@ const Expense = ({ expense }) => {
     >
       <Grid item xs={8}>
         <Typography variant="body1" sx={{ pl: 3 }}>
-          {expense}
+          {key}
         </Typography>
       </Grid>
       <Grid item xs={4}>
