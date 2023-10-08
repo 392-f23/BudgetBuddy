@@ -15,10 +15,10 @@ const ChartSection = ({ income, budget, expenses }) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            marginRight: "30px",
+            marginRight: "20px",
           }}
         >
-          Your monthly income:{" "}
+          Your monthly income:
         </Typography>
         <TextField
           defaultValue={currentIncome}
