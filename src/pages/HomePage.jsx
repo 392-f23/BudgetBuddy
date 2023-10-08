@@ -5,14 +5,11 @@ import { dummyData } from "../assets/dummy_data";
 
 function HomePage() {
   return (
-    <>
-      <Header />
-      <ChartSection
-        budget={dummyData["Budget"]["Monthly"]}
-        income={dummyData.Income}
-        expenses={dummyData.Expenses}
-      />
-    </>
+    <ChartSection
+      budget={dummyData["Budget"]["Monthly"]}
+      income={dummyData.Income}
+      expenses={dummyData.Expenses}
+    />
   );
 }
 

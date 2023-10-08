@@ -3,17 +3,18 @@ import ExpenseBreakdown from "./ExpenseBreakdown.jsx";
 import { dummyData } from "../assets/dummy_data.js";
 import { Box, Typography } from "@mui/material";
 
-function ExpenseSection() {
+const ExpenseSection = () => {
   const { Expenses: expenses, Budget: budgets } = dummyData;
   const [state, setState] = useState([]);
 
   useEffect(() => {
     const initialize = () => {
       const temp = [];
+
       Object.entries(expenses).map(([expense, value]) => {
         const initialBudget = budgets[expense];
-        const { total, subExpenses } = value;
-        temp.push([expense, (100 * total) / initialBudget, subExpenses]);
+        const { total, subExpense } = value;
+        temp.push([expense, (100 * total) / initialBudget, subExpense]);
       });
 
       setState(temp);
@@ -26,14 +27,10 @@ function ExpenseSection() {
     <Box sx={{ padding: "16px" }}>
       <Typography variant="h2">Expense Breakdown</Typography>
       {state.map((expense) => (
-        <ExpenseBreakdown
-          subExpenses={expenses}
-          expense={expense}
-          key={expense}
-        />
+        <ExpenseBreakdown expense={expense} key={expense} />
       ))}
     </Box>
   );
-}
+};
 
 export default ExpenseSection;

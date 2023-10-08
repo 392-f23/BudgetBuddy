@@ -33,13 +33,9 @@ const ExpenseBreakdown = ({ subExpenses, expense }) => {
         </Grid>
       </Grid>
       <Box>
-        {Object.entries(subExpenses[expense[0]].subExpense).map(
-          ([subExpense, value]) => (
-            <div key={subExpense}>
-              <Expense expense={subExpense} value={value} />
-            </div>
-          )
-        )}
+        {Object.entries(expense[2]).map((subExpense) => (
+          <Expense expense={subExpense} />
+        ))}
       </Box>
     </Box>
   );
