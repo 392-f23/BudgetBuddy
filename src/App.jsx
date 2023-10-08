@@ -1,19 +1,18 @@
-import { useState } from 'react';
-import HomePage from './pages/HomePage';
-import ExpenseSection from './components/ExpenseSection';
-import './App.css';
-import { ThemeProvider } from '@mui/material/styles';
-import {theme} from './Theme';
+import HomePage from "./pages/HomePage";
+import ExpenseSection from "./components/ExpenseSection";
+import { Divider } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
+import { theme } from "./Theme";
 
 const App = () => {
   return (
-    <div className="App">
+    <>
       <ThemeProvider theme={theme}>
         <HomePage />
-        <hr/>
+        <Divider sx={{ backgroundColor: theme.palette.text.primary }} />
         <ExpenseSection />
       </ThemeProvider>
-    </div>
+    </>
   );
 };
 

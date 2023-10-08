@@ -1,43 +1,99 @@
-import React from 'react'
-import logo  from '../assets/budget buddy.png'
-import { AppBar, Box, Toolbar, IconButton, Typography } from "@mui/material";
-import MenuIcon from '@mui/icons-material/Menu';
-import { useTheme } from '@mui/material/styles';
-
+import React from "react";
+import logo from "../assets/budget buddy.png";
+import {
+  AppBar,
+  Box,
+  Grid,
+  Toolbar,
+  IconButton,
+  Typography,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import { useTheme } from "@mui/material/styles";
 
 function Header() {
-    const theme = useTheme();
-    const primaryColor = theme.palette.primary[1];
-    const secondaryColor = theme.palette.primary[2];
+  const theme = useTheme();
+
   return (
     <Box>
-        <AppBar position="static">
-            <Toolbar variant="dense" style={{display: 'flex', alignSelf: 'center'}}>
-                {/* todo: add this back once it's functional */}
-                {/* <IconButton edge="start" color="" aria-label="menu" sx={{ mr: 2 }}>
-                    <MenuIcon style={{ backgroundColor: primaryColor, color: secondaryColor, padding: '8px', borderRadius: '25px' }} />
-                </IconButton> */}
-                <Box style={{display: 'flex', flexDirection:'column', alignItems:'center'}}>
-                    <Typography variant="h4" component="div" style={{color: secondaryColor}}>
-                        BudgetBuddy 
-                    </Typography>
-                    <Typography variant="" component="div" style={{color: secondaryColor}}>
-                        Welcome back David! 
-                    </Typography>
-                </Box>
-                <Box
-                    component="img"
-                    src={logo}
-                    width="125px"
-                    height="100px"
+      <AppBar
+        position="static"
+        sx={{ backgroundColor: theme.palette.primary[1] }}
+      >
+        <Toolbar>
+          <Grid container sx={{ pt: 4 }}>
+            <Grid
+              item
+              xs={2}
+              sx={{
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "center",
+              }}
+            >
+              <IconButton edge="start" aria-label="menu">
+                <MenuIcon
+                  style={{
+                    backgroundColor: theme.palette.primary.main,
+                    color: theme.palette.primary[2],
+                    padding: "8px",
+                    borderRadius: "50%",
+                    fontSize: "1.8rem",
+                  }}
+                />
+              </IconButton>
+            </Grid>
+            <Grid
+              item
+              xs={8}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Box
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Typography
+                  variant="h1"
+                  style={{ color: theme.palette.text[1] }}
                 >
-                </Box>
-                
-            </Toolbar>
-        </AppBar>
+                  BudgetBuddy
+                </Typography>
+                <Typography
+                  variant="h6"
+                  style={{ color: theme.palette.text[1] }}
+                >
+                  Welcome back, David!
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item
+              xs={2}
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+              }}
+            >
+              <Box
+                component="img"
+                src={logo}
+                sx={{ width: "100%", aspectRatio: 2 / 3 }}
+              ></Box>
+            </Grid>
+          </Grid>
+        </Toolbar>
+      </AppBar>
     </Box>
-    
-  )
+  );
 }
 
-export default Header
+export default Header;
