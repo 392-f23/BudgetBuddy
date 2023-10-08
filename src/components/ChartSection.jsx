@@ -8,8 +8,18 @@ const ChartSection = ({ income, budget, expenses }) => {
   return (
     <Box sx={{ padding: "16px" }}>
       <Chart budget={budget} expenses={expenses} />
-      <Box sx={{ display: "flex" }}>
-        <Typography varianat="h3">Your monthly income: </Typography>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Typography
+          varianat="h3"
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginRight: "30px",
+          }}
+        >
+          Your monthly income:{" "}
+        </Typography>
         <TextField
           defaultValue={currentIncome}
           onChange={(event) => setCurrentIncome(event.target.value)}
