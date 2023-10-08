@@ -1,7 +1,7 @@
 import { Box, Grid, LinearProgress, Typography, useTheme } from "@mui/material";
 import Expense from "./Expense";
 
-const ExpenseBreakdown = ({ subExpenses, expense }) => {
+const ExpenseBreakdown = ({ expense }) => {
   const theme = useTheme();
 
   return (
