@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Grid, TextField, Typography } from "@mui/material";
+import { Grid, TextField, Typography, InputAdornment } from "@mui/material";
 
 const Expense = ({ expense }) => {
   const [key, value] = expense;
@@ -28,6 +28,9 @@ const Expense = ({ expense }) => {
         <TextField
           defaultValue={value}
           onChange={(event) => handleChange(event)}
+          InputProps={{
+            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+          }}
           sx={{ pr: 3 }}
         ></TextField>
       </Grid>
