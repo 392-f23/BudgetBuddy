@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, Typography, TextField, InputAdornment } from "@mui/material";
 import Chart from "./Chart";
 
-const ChartSection = ({ income, budget, expenses }) => {
+const ChartSection = ({ income, budget, setMonthlyBudget, totalExpenses }) => {
   const [currentIncome, setCurrentIncome] = useState(income);
 
   return (
@@ -18,7 +18,11 @@ const ChartSection = ({ income, budget, expenses }) => {
       <Box
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
-        <Chart budget={budget} expenses={expenses} />
+        <Chart
+          budget={budget}
+          setMonthlyBudget={setMonthlyBudget}
+          totalExpenses={totalExpenses}
+        />
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Typography

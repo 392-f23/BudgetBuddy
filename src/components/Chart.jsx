@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { useDrawingArea } from "@mui/x-charts/hooks";
 import { styled } from "@mui/material/styles";
@@ -10,9 +9,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 
-const Chart = ({ budget, expenses }) => {
-  const [totalExpen, setTotalExpen] = useState(0);
-  const [currBudget, setCurrBudget] = useState(budget);
+const Chart = ({ budget, setMonthlyBudget, totalExpenses }) => {
   const theme = useTheme();
 
   const StyledText = styled("text")(({ theme }) => ({
@@ -35,22 +32,6 @@ const Chart = ({ budget, expenses }) => {
     );
   }
 
-  useEffect(() => {
-    const init = () => {
-      let tempTotalExpen = 0;
-
-      Object.entries(expenses).map((expense) => {
-        const [_, breakdown] = expense;
-        const { total } = breakdown;
-        tempTotalExpen += total;
-      });
-
-      setTotalExpen(tempTotalExpen);
-    };
-
-    init();
-  }, []);
-
   return (
     <Box sx={{ textAlign: "center" }}>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -66,8 +47,8 @@ const Chart = ({ budget, expenses }) => {
           Total Budget:
         </Typography>
         <TextField
-          defaultValue={currBudget}
-          onChange={(event) => setCurrBudget(event.target.value)}
+          defaultValue={budget}
+          onChange={(event) => setMonthlyBudget(event.target.value)}
           InputProps={{
             startAdornment: <InputAdornment position="start">$</InputAdornment>,
           }}
@@ -78,8 +59,8 @@ const Chart = ({ budget, expenses }) => {
         series={[
           {
             data: [
-              { id: 0, value: totalExpen, label: "Spent" },
-              { id: 1, value: currBudget - totalExpen, label: "Left" },
+              { id: 0, value: totalExpenses, label: "Spent" },
+              { id: 1, value: budget - totalExpenses, label: "What's Left" },
             ],
             innerRadius: 75,
             cornerRadius: 10,

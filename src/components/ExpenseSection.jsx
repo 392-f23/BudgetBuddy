@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
 import ExpenseBreakdown from "./ExpenseBreakdown.jsx";
-import { dummyData } from "../assets/dummy_data.js";
 import { Box, Typography } from "@mui/material";
 
-const ExpenseSection = () => {
-  const { Expenses: expenses, Budget: budgets } = dummyData;
+const ExpenseSection = ({ expenses, handleExpensesStateChange, budgets }) => {
   const [state, setState] = useState([]);
 
   useEffect(() => {
@@ -21,7 +19,7 @@ const ExpenseSection = () => {
     };
 
     initialize();
-  }, []);
+  }, [expenses]);
 
   return (
     <Box sx={{ padding: "32px" }}>
