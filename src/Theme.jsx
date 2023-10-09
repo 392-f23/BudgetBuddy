@@ -11,8 +11,8 @@ const breakpoints = {
 export const theme = createTheme({
     palette: {
         text: {
-            primary: "#000000",
-            secondary: "#000000",
+            primary: "#1E1E1E",
+            secondary: "#1E1E1E",
             1: "#FEFEE3",
         },
         primary: {

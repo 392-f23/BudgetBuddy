@@ -1,7 +1,7 @@
 import { Box, Grid, LinearProgress, Typography, useTheme } from "@mui/material";
 import Expense from "./Expense";
 
-const ExpenseBreakdown = ({ subExpenses, expense }) => {
+const ExpenseBreakdown = ({ expense, handleExpensesStateChange }) => {
   const theme = useTheme();
 
   return (
@@ -33,8 +33,8 @@ const ExpenseBreakdown = ({ subExpenses, expense }) => {
         </Grid>
       </Grid>
       <Box>
-        {Object.entries(expense[2]).map((subExpense) => (
-          <Expense expense={subExpense} />
+        {Object.entries(expense[2]).map((subExpense, index) => (
+          <Expense key={index} expense={subExpense} />
         ))}
       </Box>
     </Box>

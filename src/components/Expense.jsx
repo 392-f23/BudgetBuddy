@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Grid, TextField, Typography } from "@mui/material";
+import { Grid, TextField, Typography, InputAdornment } from "@mui/material";
 
 const Expense = ({ expense }) => {
   const [key, value] = expense;
@@ -21,14 +21,24 @@ const Expense = ({ expense }) => {
     >
       <Grid item xs={8}>
         <Typography variant="body1" sx={{ pl: 3 }}>
-          {expense}
+          {key}
         </Typography>
       </Grid>
-      <Grid item xs={4}>
+      <Grid
+        item
+        xs={4}
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "center",
+        }}
+      >
         <TextField
           defaultValue={value}
           onChange={(event) => handleChange(event)}
-          sx={{ pr: 3 }}
+          InputProps={{
+            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+          }}
         ></TextField>
       </Grid>
     </Grid>
