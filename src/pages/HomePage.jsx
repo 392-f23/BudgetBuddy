@@ -16,9 +16,10 @@ function HomePage() {
     const init = () => {
       let tempTotalExpen = 0;
 
-      Object.entries(Expenses).map((expense) => {
+      Object.entries(expensesState).map((expense) => {
         const [_, breakdown] = expense;
         const { total } = breakdown;
+
         tempTotalExpen += total;
       });
 
