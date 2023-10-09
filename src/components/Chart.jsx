@@ -60,7 +60,7 @@ const Chart = ({ budget, setMonthlyBudget, totalExpenses }) => {
           {
             data: [
               { id: 0, value: totalExpenses, label: "Spent" },
-              { id: 1, value: budget - totalExpenses, label: "What's Left" },
+              { id: 1, value: budget - totalExpenses, label: "Left" },
             ],
             innerRadius: 75,
             cornerRadius: 10,
