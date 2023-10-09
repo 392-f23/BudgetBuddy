@@ -24,7 +24,7 @@ const ExpenseSection = () => {
   }, []);
 
   return (
-    <Box sx={{ padding: "16px" }}>
+    <Box sx={{ padding: "32px" }}>
       <Typography variant="h2">Expense Breakdown</Typography>
       {state.map((expense) => (
         <ExpenseBreakdown expense={expense} key={expense} />

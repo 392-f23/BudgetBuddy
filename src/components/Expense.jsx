@@ -24,14 +24,21 @@ const Expense = ({ expense }) => {
           {key}
         </Typography>
       </Grid>
-      <Grid item xs={4}>
+      <Grid
+        item
+        xs={4}
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "center",
+        }}
+      >
         <TextField
           defaultValue={value}
           onChange={(event) => handleChange(event)}
           InputProps={{
             startAdornment: <InputAdornment position="start">$</InputAdornment>,
           }}
-          sx={{ pr: 3 }}
         ></TextField>
       </Grid>
     </Grid>

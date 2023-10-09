@@ -6,11 +6,23 @@ const ChartSection = ({ income, budget, expenses }) => {
   const [currentIncome, setCurrentIncome] = useState(income);
 
   return (
-    <Box sx={{ padding: "16px" }}>
-      <Chart budget={budget} expenses={expenses} />
+    <Box
+      sx={{
+        padding: "32px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "space-between",
+        flexDirection: "column",
+      }}
+    >
+      <Box
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+      >
+        <Chart budget={budget} expenses={expenses} />
+      </Box>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Typography
-          varianat="h3"
+          variant="h4"
           sx={{
             display: "flex",
             justifyContent: "center",
