@@ -81,12 +81,12 @@ const Chart = ({ budget, expenses }) => {
               { id: 0, value: totalExpen, label: "Spent" },
               { id: 1, value: currBudget - totalExpen, label: "Left" },
             ],
-            innerRadius: 100,
+            innerRadius: 75,
             cornerRadius: 10,
           },
         ]}
-        width={425}
-        height={425}
+        width={350}
+        height={350}
         colors={[theme.palette.primary.main, theme.palette.primary[3]]}
         sx={{
           "--ChartsLegend-itemWidth": "200px",
