@@ -9,11 +9,11 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import logo from "../assets/budget buddy.png";
+import logo from "../assets/budget_buddy_cropped.png";
 import GoogleIcon from "@mui/icons-material/Google";
 import readData from "../utility/query";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useAuthState, handleLogin } from "../utility/firebase";
+import { useAuthState, handleLogin, signUpWithGoogle } from "../utility/firebase";
 import { signInWithPopup } from "firebase/auth";
 
 function LoginPage() {
@@ -25,8 +25,8 @@ function LoginPage() {
     };
     read();
   }, []);
-
-  // const navigate = useNavigate();
+  //SETUP NAVIGATE HERE
+  const navigate = useNavigate();
   /*
   const handleLogin = () => {
     signInWithPopup(auth, provider)
@@ -86,7 +86,8 @@ function LoginPage() {
           </Grid>
         </Toolbar>
       </AppBar>
-      <Box
+      <Grid
+        container
         sx={{
           height: "100%",
           width: "100%",
@@ -97,28 +98,47 @@ function LoginPage() {
           flexDirection: "column",
         }}
       >
-        <Button
-          variant="contained"
-          startIcon={<GoogleIcon />}
-          onClick={handleLogin}
-          sx={{
-            backgroundColor: theme.palette.primary[1],
-            border: `1px solid ${theme.palette.primary[5]}`,
-            borderRadius: "10px",
+        <Grid 
+          item
+          xs={6}
+          sx={{ 
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            width: "100%",
+            maxWidth: "100%",
+            pt: 6,
           }}
         >
-          Sign in with Google
-        </Button>
-        <Box sx={{ justifyContent: "flex-end" }}>
-            <Box sx={{ position: "relative"}}>
-                <Box component="img" src={logo} sx={{ position: "absolute", transform: "translateY(10%) translateX(-50%)" }}/>
-            </Box>
-        </Box>
-      </Box>
-
-      {/* <div>
-        <NavLink to="/home">click to go home</NavLink>
-      </div> */}
+          <Button
+            variant="contained"
+            startIcon={<GoogleIcon />}
+            onClick={() => signUpWithGoogle(navigate)}
+            sx={{
+              backgroundColor: theme.palette.primary[1],
+              border: `1px solid ${theme.palette.primary[5]}`,
+              borderRadius: "10px",
+            }}
+          >
+            Sign in with Google
+          </Button>
+        </Grid>
+        <Grid 
+          item
+          xs={6}
+          sx={{ 
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            verticalAlign: "bottom",
+            margin: 0,
+            position: "fixed",
+            bottom: "0px"
+          }}
+        >
+          <Box component="img" src={logo} />
+        </Grid>
+      </Grid>
     </>
   );
 }

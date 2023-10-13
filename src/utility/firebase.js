@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { initializeApp } from "firebase/app";
 import { getFirestore} from "firebase/firestore";
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, fetchSignInMethodsForEmail } from 'firebase/auth';
-import {useNavigate} from "react-router-dom"; 
+import { useNavigate } from "react-router-dom"; 
 
 const firebaseConfig = {
   apiKey: "AIzaSyA5lOWJIj5Do5mu7EMn1Ulpokk_g_VV3b4",
@@ -33,8 +33,11 @@ const useAuthState = () => {
   
     return [user];
   };
-  const navigate = useNavigate(); 
-  const handleLogin = () => {
+
+  
+
+  const handleLogin = async (navigate) => {
+    // const navigate = useNavigate();
     signInWithPopup(auth, provider)
     .then(async (result) => {
       const user = result.user;
@@ -45,7 +48,7 @@ const useAuthState = () => {
       if (signInMethods.length === 0) {
         // The email is not associated with an existing account
         // Prompt the user to sign up with Google
-        signUpWithGoogle();
+        signUpWithGoogle(navigate);
       } else {
         // The email is associated with an existing account
         // Redirect to home page or perform the sign-in logic as needed
@@ -57,9 +60,10 @@ const useAuthState = () => {
     });
   };
 
-  const signUpWithGoogle = () => {
+  const signUpWithGoogle = async (navigate) => {
     signInWithPopup(auth, provider)
       .then((result) => {
+        // const navigate = useNavigate();
         // Redirect to home page or another route after successful sign-up
         navigate('/home'); // Adjust the route as needed
       })
@@ -68,7 +72,7 @@ const useAuthState = () => {
       });
   };
 
-export {db, auth, provider, signInWithGoogle, firebaseSignOut as signOut, useAuthState, handleLogin};
+export {db, auth, provider, signInWithGoogle, firebaseSignOut as signOut, useAuthState, handleLogin, signUpWithGoogle};
 // try {
 //   const docRef = await addDoc(collection(db, "users"), {
 //     first: "Ada",
