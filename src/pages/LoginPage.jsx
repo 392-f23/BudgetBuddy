@@ -11,9 +11,14 @@ import {
 } from "@mui/material";
 import logo from "../assets/budget_buddy_cropped.png";
 import GoogleIcon from "@mui/icons-material/Google";
+import LoginHeader from "../components/LoginHeader";
 import readData from "../utility/query";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useAuthState, handleLogin, signUpWithGoogle } from "../utility/firebase";
+import {
+  useAuthState,
+  handleLogin,
+  signUpWithGoogle,
+} from "../utility/firebase";
 import { signInWithPopup } from "firebase/auth";
 
 function LoginPage() {
@@ -46,46 +51,7 @@ function LoginPage() {
 
   return (
     <>
-      <AppBar
-        position="static"
-        sx={{ backgroundColor: theme.palette.primary[1] }}
-      >
-        <Toolbar>
-          <Grid container sx={{ pt: 4, pb: 2 }}>
-            <Grid
-              item
-              xs={12}
-              sx={{
-                display: "flex",
-                justifyContent: "flex-start",
-                alignItems: "center",
-              }}
-            >
-              <Box
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  justifyContent: "flex-start",
-                }}
-              >
-                <Typography
-                  variant="h1"
-                  style={{ color: theme.palette.text[1] }}
-                >
-                  BudgetBuddy
-                </Typography>
-                <Typography
-                  variant="h6"
-                  style={{ color: theme.palette.text[1] }}
-                >
-                  Sign in below
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
+      <LoginHeader />
       <Grid
         container
         sx={{
@@ -98,10 +64,10 @@ function LoginPage() {
           flexDirection: "column",
         }}
       >
-        <Grid 
+        <Grid
           item
           xs={6}
-          sx={{ 
+          sx={{
             display: "flex",
             justifyContent: "center",
             alignItems: "flex-start",
@@ -123,17 +89,17 @@ function LoginPage() {
             Sign in with Google
           </Button>
         </Grid>
-        <Grid 
+        <Grid
           item
           xs={6}
-          sx={{ 
+          sx={{
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             verticalAlign: "bottom",
             margin: 0,
             position: "fixed",
-            bottom: "0px"
+            bottom: "0px",
           }}
         >
           <Box component="img" src={logo} />

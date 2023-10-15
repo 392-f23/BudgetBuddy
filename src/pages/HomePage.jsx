@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import ChartSection from "../components/ChartSection";
 import ExpenseSection from "../components/ExpenseSection";
-import Header from "../components/Header";
 // Temp import dummy data
 import { dummyData } from "../assets/dummy_data";
-import {readData, altReadData}  from "../utility/query";
+import { readData, altReadData } from "../utility/query";
+import MenuContainer from "../components/MenuContainer";
 
 function HomePage() {
   const { Income, Budget, Expenses } = dummyData;
@@ -30,17 +30,13 @@ function HomePage() {
 
     const read = async () => {
       await readData("users");
-      
-    }
-    
+    };
 
     init();
-
   }, [expensesState]);
 
   return (
-    <>
-      <Header />
+    <MenuContainer>
       <ChartSection
         budget={monthlyBudget}
         income={Income}
@@ -52,7 +48,7 @@ function HomePage() {
         handleExpensesStateChange={setExpensesState}
         budgets={Budget}
       />
-    </>
+    </MenuContainer>
   );
 }
 

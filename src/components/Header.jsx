@@ -86,7 +86,7 @@ function Header() {
               <Box
                 component="img"
                 src={logo}
-                sx={{ maxHeight: "120px", aspectRatio: 2 / 3, }}
+                sx={{ maxHeight: "120px", aspectRatio: 2 / 3 }}
               ></Box>
             </Grid>
           </Grid>
