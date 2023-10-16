@@ -81,7 +81,6 @@ const MenuContainer = (props) => {
   return (
     <Box sx={{ display: "flex", height: "100%" }}>
       <AppBar
-        position="fixed"
         sx={{ backgroundColor: theme.palette.primary[1] }}
         open={open}
       >
@@ -97,12 +96,19 @@ const MenuContainer = (props) => {
               }}
             >
               <IconButton
-                color="inherit"
                 onClick={handleDrawer}
                 edge="start"
                 sx={{ mr: 2, ...(open && { display: "none" }) }}
               >
-                <Menu />
+                <Menu
+                  style={{
+                    backgroundColor: theme.palette.primary.main,
+                    color: theme.palette.primary[2],
+                    padding: "8px",
+                    borderRadius: "50%",
+                    fontSize: "1.8rem",
+                  }}
+                />
               </IconButton>
             </Grid>
             <Grid
@@ -169,7 +175,7 @@ const MenuContainer = (props) => {
         anchor="left"
         open={open}
       >
-        <DrawerHeader>
+        <DrawerHeader sx={{ minHeight: "120px" }}>
           <Box
             component="img"
             src={photoUrl}
@@ -179,13 +185,29 @@ const MenuContainer = (props) => {
             {`Hello, ${userName}!`}
           </Typography>
           <IconButton onClick={handleDrawer}>
-            <ChevronLeft />
+            <ChevronLeft
+              style={{
+                backgroundColor: theme.palette.primary.main,
+                color: theme.palette.primary[2],
+                padding: "8px",
+                borderRadius: "50%",
+                fontSize: "1.8rem",
+              }}
+            />
           </IconButton>
         </DrawerHeader>
         <Divider sx={{ backgroundColor: "#ffffff" }} />
         <List>
           <ListItem disablePadding>
-            <ListItemButton onClick={() => navigate("/home")}>
+            <ListItemButton
+              onClick={() => navigate("/home")}
+              sx={{ 
+                minHeight: "80px",
+                "&:hover": {
+                  backgroundColor: theme.palette.primary.main,
+                }
+              }}
+            >
               <ListItemIcon sx={{ color: "#ffffff" }}>
                 <Home />
               </ListItemIcon>
@@ -193,7 +215,15 @@ const MenuContainer = (props) => {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton onClick={() => navigate("/insights")}>
+            <ListItemButton
+              onClick={() => navigate("/insights")}
+              sx={{ 
+                minHeight: "80px",
+                "&:hover": {
+                  backgroundColor: theme.palette.primary.main,
+                }
+              }}
+            >
               <ListItemIcon sx={{ color: "#ffffff" }}>
                 <Insights />
               </ListItemIcon>
@@ -201,7 +231,15 @@ const MenuContainer = (props) => {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton onClick={() => handleLogOut(navigate)}>
+            <ListItemButton
+              onClick={() => handleLogOut(navigate)}
+              sx={{ 
+                minHeight: "80px",
+                "&:hover": {
+                  backgroundColor: theme.palette.primary.main,
+                }
+              }}
+            >
               <ListItemIcon sx={{ color: "#ffffff" }}>
                 <Logout />
               </ListItemIcon>
