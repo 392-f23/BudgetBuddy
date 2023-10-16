@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 import {
   getAuth,
   GoogleAuthProvider,
@@ -83,13 +83,31 @@ const handleLogOut = (navigate) => {
 
 const signUpWithGoogle = async (navigate) => {
   signInWithPopup(auth, provider)
-    .then((result) => {
-      const { user } = result;
+    .then(async (result) => {
+      // const { user } = result;
+      // const { displayName, photoURL } = user;
+
+      // localStorage.setItem("isSignedIn", true);
+      // localStorage.setItem("name", displayName);
+      // localStorage.setItem("photoUrl", photoURL);
+
+      const user = result.user;
+
+      const userDocRef = doc(db, "users", user.uid);
+      const userData = {
+        email: user.email,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+      };
+
+      await setDoc(userDocRef, userData, { merge: true });
+
       const { displayName, photoURL } = user;
 
       localStorage.setItem("isSignedIn", true);
       localStorage.setItem("name", displayName);
       localStorage.setItem("photoUrl", photoURL);
+
       // Redirect to home page or another route after successful sign-up
       navigate(0); // Adjust the route as needed
     })
