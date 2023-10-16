@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { initializeApp } from "firebase/app";
-import { getFirestore} from "firebase/firestore";
+import { getFirestore, doc, setDoc} from "firebase/firestore";
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, fetchSignInMethodsForEmail } from 'firebase/auth';
 import { useNavigate } from "react-router-dom"; 
 
@@ -42,6 +42,7 @@ const useAuthState = () => {
     .then(async (result) => {
       const user = result.user;
 
+
       // Check if the user's email is associated with an existing account
       const signInMethods = await fetchSignInMethodsForEmail(auth, user.email);
 
@@ -62,10 +63,20 @@ const useAuthState = () => {
 
   const signUpWithGoogle = async (navigate) => {
     signInWithPopup(auth, provider)
-      .then((result) => {
-        // const navigate = useNavigate();
-        // Redirect to home page or another route after successful sign-up
-        navigate('/home'); // Adjust the route as needed
+      .then(async (result) => {
+
+        const user = result.user;
+
+        const userDocRef = doc(db, "users", user.uid);
+        const userData = {
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+        };
+    
+        await setDoc(userDocRef, userData, { merge: true });
+    
+        navigate('/home'); 
       })
       .catch((error) => {
         console.error(error);
