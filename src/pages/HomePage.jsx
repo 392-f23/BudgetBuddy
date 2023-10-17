@@ -3,30 +3,30 @@ import ChartSection from "../components/ChartSection";
 import ExpenseSection from "../components/ExpenseSection";
 // Temp import dummy data
 import { dummyData } from "../assets/dummy_data";
-import { readData, altReadData } from "../utility/query";
+import { fetchUserData } from "../utility/query";
 import MenuContainer from "../components/MenuContainer";
-import { getIncome, getBudget } from "../utility/firebase"
-//import readData from "../utility/query";
+// import { getIncome, getBudget } from "../utility/firebase";
+import { Box, CircularProgress } from "@mui/material";
 
 function HomePage() {
-  const {Budget, Expenses } = dummyData;
-
-  const [budget, setBudget] = useState(0)
-  const [income, setIncome ] = useState(0)
+  const { Budget, Expenses } = dummyData;
+  const [isLoading, setIsLoading] = useState(true);
+  const [budget, setBudget] = useState(0);
+  const [income, setIncome] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [expensesState, setExpensesState] = useState(Expenses);
 
-  useEffect(() => {
-    const init = async () => {
-      const incomeTemp = await getIncome();
-      setIncome(incomeTemp)
-      const budgetTemp = await getBudget();
-      setBudget(budgetTemp)
-    }
-    init();
-  }, []);
+  // useEffect(() => {
+  //   const init = async () => {
+  //     const incomeTemp = await getIncome();
+  //     setIncome(incomeTemp);
+  //     const budgetTemp = await getBudget();
+  //     setBudget(budgetTemp);
+  //   };
+  //   init();
+  // }, []);
 
-//use uid in LocalStorage for querying DB to get up-to-date info! 
+  //use uid in LocalStorage for querying DB to get up-to-date info!
   useEffect(() => {
     const init = () => {
       let tempTotalExpen = 0;
@@ -42,14 +42,37 @@ function HomePage() {
     };
 
     const read = async () => {
-      await readData("users");
+      setIsLoading(true);
+      const uid = localStorage.getItem("uid");
+      const data = await fetchUserData(uid);
+
+      if (!data) {
+        return;
+      }
+
+      const { income, budget } = data;
+      setIncome(income);
+      setBudget(budget);
+      setIsLoading(false);
     };
 
     init();
+    read();
   }, [expensesState]);
 
-
-  return (
+  return isLoading ? (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+        width: "100%",
+      }}
+    >
+      <CircularProgress />
+    </Box>
+  ) : (
     <MenuContainer>
       <ChartSection
         budget={budget}

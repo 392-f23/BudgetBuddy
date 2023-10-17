@@ -145,9 +145,6 @@ const isOnboarded = async () => {
   }
 
   const userDocRef = doc(db, "users", id);
-  // await updateDoc(userDocRef, {
-  //   onboarded: true,
-  // });
   const snapshot = await getDoc(userDocRef);
   if (snapshot.exists()) {
     const data = snapshot.data();
