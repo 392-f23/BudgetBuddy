@@ -7,7 +7,7 @@ import {
   useTheme,
 } from "@mui/material";
 
-const LoginHeader = () => {
+const SetupHeader = ({ text }) => {
   const theme = useTheme();
 
   return (
@@ -38,7 +38,7 @@ const LoginHeader = () => {
                 BudgetBuddy
               </Typography>
               <Typography variant="h6" style={{ color: theme.palette.text[1] }}>
-                Sign in below
+                { text }
               </Typography>
             </Box>
           </Grid>
@@ -48,4 +48,4 @@ const LoginHeader = () => {
   );
 };
 
-export default LoginHeader;
+export default SetupHeader;

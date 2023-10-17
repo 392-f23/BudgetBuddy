@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, updateDoc } from "firebase/firestore";
 import {
   getAuth,
   GoogleAuthProvider,
@@ -55,11 +55,12 @@ const handleLogin = async (navigate) => {
         // The email is associated with an existing account
         // Redirect to home page or perform the sign-in logic as needed
         const { user } = result;
-        const { displayName, photoURL } = user;
+        const { displayName, photoURL, uid } = user;
 
         localStorage.setItem("isSignedIn", true);
         localStorage.setItem("name", displayName);
         localStorage.setItem("photoUrl", photoURL);
+        localStirage.setItem("uid", uid);
         navigate(0);
       }
     })
@@ -78,19 +79,13 @@ const handleLogOut = (navigate) => {
   localStorage.removeItem("isSignedIn");
   localStorage.removeItem("name");
   localStorage.removeItem("photoUrl");
+  localStorage.removeItem("uid");
   navigate(0);
 };
 
 const signUpWithGoogle = async (navigate) => {
   signInWithPopup(auth, provider)
     .then(async (result) => {
-      // const { user } = result;
-      // const { displayName, photoURL } = user;
-
-      // localStorage.setItem("isSignedIn", true);
-      // localStorage.setItem("name", displayName);
-      // localStorage.setItem("photoUrl", photoURL);
-
       const user = result.user;
 
       const userDocRef = doc(db, "users", user.uid);
@@ -102,11 +97,12 @@ const signUpWithGoogle = async (navigate) => {
 
       await setDoc(userDocRef, userData, { merge: true });
 
-      const { displayName, photoURL } = user;
+      const { displayName, photoURL, uid } = user;
 
       localStorage.setItem("isSignedIn", true);
       localStorage.setItem("name", displayName);
       localStorage.setItem("photoUrl", photoURL);
+      localStorage.setItem("uid", uid);
 
       // Redirect to home page or another route after successful sign-up
       navigate(0); // Adjust the route as needed
@@ -115,6 +111,72 @@ const signUpWithGoogle = async (navigate) => {
       console.error(error);
     });
 };
+
+const isOnboarded = async () => {
+  const id = localStorage.getItem("uid")
+  const userDocRef = doc(db, "users", id);
+  await updateDoc(userDocRef, {
+    onboarded: true
+  })
+};
+
+const submitOnboardingInformation = async (income, budget) => {
+  const id = localStorage.getItem("uid")
+  const userDocRef = doc(db, "users", id);
+  const userData = {
+    income: income,
+    budget: budget
+  };
+
+  await setDoc(userDocRef, userData, { merge: true });
+  await updateDoc(userDocRef, {
+    onboarded: true
+  })
+}
+
+export async function changeIncome(income){
+  const id = localstorage.getItem("uid")
+  const userDocRef = doc(db, "users", id);
+  await updateDoc(userDocRef, {
+      income: income
+    })
+}
+
+export async function changeBudget(budget){
+  const id = localstorage.getItem("uid")
+  const userDocRef = doc(db, "users", id);
+  await updateDoc(userDocRef, {
+      budget: budget
+    })
+}
+
+
+
+export async function getIncome() {
+  const docRef = doc(db, "users", "income");
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    console.log("Document data:", docSnap.data());
+    return docSnap.data()
+  } else {
+    // docSnap.data() will be undefined in this case
+    console.log("No such document!");
+  }
+}
+
+export async function getBudget() {
+  const docRef = doc(db, "users", "budget");
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    console.log("Document data:", docSnap.data());
+    return docSnap.data()
+  } else {
+    // docSnap.data() will be undefined in this case
+    console.log("No such document!");
+  }
+}
 
 export {
   db,
@@ -127,6 +189,8 @@ export {
   signUpWithGoogle,
   handleLogOut,
   checkIfLoggedIn,
+  isOnboarded,
+  submitOnboardingInformation
 };
 // try {
 //   const docRef = await addDoc(collection(db, "users"), {

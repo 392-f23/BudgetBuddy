@@ -30,4 +30,42 @@ export const dummyData = {
       },
     },
   },
+  SpendingHistory: [
+    {
+      date: "2023-10-01",
+      category: "Rent",
+      subcategory: "BaseRent",
+      amount: 1300
+    },
+    {
+      date: "2023-10-01",
+      category: "Rent",
+      subcategory: "BaseRent",
+      amount: 225
+    },
+    {
+      date: "2023-10-02",
+      category: "Food",
+      subcategory: "Groceries",
+      amount: 300
+    },
+    {
+      date: "2023-10-03",
+      category: "Food",
+      subcategory: "Dine-out",
+      amount: 123
+    },
+    {
+      date: "2023-10-03",
+      category: "Transport",
+      subcategory: "Uber",
+      amount: "250"
+    },
+    {
+      date: "2023-10-04",
+      category: "Transport",
+      subcategory: "CTA",
+      amount: "150"
+    }
+  ]
 };

@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import logo from "../assets/budget_buddy_cropped.png";
 import GoogleIcon from "@mui/icons-material/Google";
-import LoginHeader from "../components/LoginHeader";
+import SetupHeader from "../components/SetupHeader";
 import readData from "../utility/query";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
@@ -51,11 +51,11 @@ function LoginPage() {
 
   return (
     <>
-      <LoginHeader />
+      <SetupHeader text={"Sign in below"}/>
       <Grid
         container
         sx={{
-          height: "100%",
+          height: "80vh",
           width: "100%",
           background: `linear-gradient(to top, ${theme.palette.primary[2]} 0%, ${theme.palette.primary[1]} 100%)`,
           display: "flex",
