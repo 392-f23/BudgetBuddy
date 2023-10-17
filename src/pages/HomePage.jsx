@@ -6,7 +6,7 @@ import { dummyData } from "../assets/dummy_data";
 import { fetchUserData } from "../utility/query";
 import MenuContainer from "../components/MenuContainer";
 // import { getIncome, getBudget } from "../utility/firebase";
-import { Box, CircularProgress } from "@mui/material";
+import LoadingContainer from "../components/LoadingContainer";
 
 function HomePage() {
   const { Budget, Expenses } = dummyData;
@@ -60,32 +60,22 @@ function HomePage() {
     read();
   }, [expensesState]);
 
-  return isLoading ? (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100%",
-        width: "100%",
-      }}
-    >
-      <CircularProgress />
-    </Box>
-  ) : (
-    <MenuContainer>
-      <ChartSection
-        budget={budget}
-        income={income}
-        setMonthlyBudget={setBudget}
-        totalExpenses={totalExpenses}
-      />
-      <ExpenseSection
-        expenses={expensesState}
-        handleExpensesStateChange={setExpensesState}
-        budgets={Budget}
-      />
-    </MenuContainer>
+  return (
+    <LoadingContainer isLoading={isLoading}>
+      <MenuContainer>
+        <ChartSection
+          budget={budget}
+          income={income}
+          setMonthlyBudget={setBudget}
+          totalExpenses={totalExpenses}
+        />
+        <ExpenseSection
+          expenses={expensesState}
+          handleExpensesStateChange={setExpensesState}
+          budgets={Budget}
+        />
+      </MenuContainer>
+    </LoadingContainer>
   );
 }
 
