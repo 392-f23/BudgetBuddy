@@ -7,14 +7,18 @@ import { fetchUserData } from "../utility/query";
 import MenuContainer from "../components/MenuContainer";
 // import { getIncome, getBudget } from "../utility/firebase";
 import LoadingContainer from "../components/LoadingContainer";
+import { AggData } from "../utility/aggregateData";
 
 function HomePage() {
-  const { Budget, Expenses } = dummyData;
+  const { User, Income, Budget, Expenses, SpendingHistory } = dummyData;
+  const [expenses, setExpenses] = useState({})
   const [isLoading, setIsLoading] = useState(true);
   const [budget, setBudget] = useState(0);
   const [income, setIncome] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [expensesState, setExpensesState] = useState(Expenses);
+  const [data, setData] = useState({}); 
+  //const [spendingHistory, setSpendingHistory] = useState(""); 
 
   // useEffect(() => {
   //   const init = async () => {
@@ -38,23 +42,35 @@ function HomePage() {
         tempTotalExpen += total;
       });
 
-      setTotalExpenses(tempTotalExpen);
+      // setTotalExpenses(tempTotalExpen);
     };
 
     const read = async () => {
       setIsLoading(true);
       const uid = localStorage.getItem("uid");
       const data = await fetchUserData(uid);
-
+      // const data = await fetchUserData("test");
+      //no data
       if (!data) {
         return;
       }
 
-      const { income, budget } = data;
+      const { income, budget, SpendingHistory} = data;
+      console.log("data:", data)
+      setData(data);
+      console.log(SpendingHistory)
       setIncome(income);
       setBudget(budget);
       setIsLoading(false);
+      //setSpendingHistory(spendingHistory)
+      const [Expenses, totalExpenses] = AggData(SpendingHistory)
+      console.log("total:", totalExpenses);
+      setExpenses(Expenses);
+      setTotalExpenses(totalExpenses)
+      localStorage.setItem("SpendingHistory", JSON.stringify(SpendingHistory)); 
     };
+
+    // const getExpenses = async 
 
     init();
     read();
@@ -62,7 +78,7 @@ function HomePage() {
 
   return (
     <LoadingContainer isLoading={isLoading}>
-      <MenuContainer>
+      <MenuContainer data={data} totalExpenses={totalExpenses}>
         <ChartSection
           budget={budget}
           income={income}
@@ -70,8 +86,8 @@ function HomePage() {
           totalExpenses={totalExpenses}
         />
         <ExpenseSection
-          expenses={expensesState}
-          handleExpensesStateChange={setExpensesState}
+          expenses={expenses}
+          handleExpensesStateChange={setExpenses}
           budgets={Budget}
         />
       </MenuContainer>

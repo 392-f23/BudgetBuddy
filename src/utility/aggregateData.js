@@ -1,22 +1,60 @@
-import dummyData from '../assets/dummy_data.js'
 
-export const getExpensesForMonth = (SpendingHistory, month) => {
-    return SpendingHistory.filter((expense) => new Date(expense.date).getMonth() == month)
+
+export const getExpensesForMonth = (spendingHistory, month) => {
+    return spendingHistory.filter((expense) => new Date(expense.date).getMonth() == month)
+}
+//NOT WORKING
+export const getExpensesForDate = (spendingHistory, date) => {
+    console.log("passed in date: \n")
+    console.log(date)
+    return spendingHistory.filter((expense) => {
+        console.log(`cur expense date: ${expense.date}`); 
+        expense.date === date
+    }); 
 }
 
-export const getExpensesForDate = (SpendingHistory, date) => {
-    return SpendingHistory.filter((expense) => new Date(expense.date) == date)
+export const AggData = (SpendingHistory) => {
+    console.log(`type of spending history: ${typeof (SpendingHistory)}`)
+    var totalExpenses = 0
+    var template = {
+        Rent: {
+            total: 0,
+            subExpense: {
+                BaseRent: 0,
+                Utilities: 0,
+            },
+        },
+        Food: {
+            total: 0,
+            subExpense: {
+                Groceries: 0,
+                "Dine-Out": 0,
+            },
+        },
+        Transport: {
+            total: 0,
+            subExpense: {
+                Uber: 0,
+                CTA: 0,
+            },
+        },
+    }
+    //LOOP THROUGH EACH SPENDING HISTORY OBJ => UPDATE TEMPLATE OBJ BASED OFF THIS => MIGHT NEED TO TAKE IN DATE(YYYY-MM-DD) AS PARAM???
+    SpendingHistory.forEach(obj => {
+        template[obj.category].total += parseFloat(obj.amount)
+        template[obj.category].subExpense[obj.subcategory] += parseFloat(obj.amount)
+        totalExpenses += parseFloat(obj.amount)
+    });
+
+    return [template, totalExpenses];
 }
 
-// {
-//     Rent: { total: 1300, subExpense: { BaseRent: 1300, Utilities: 225 } },
-//     Food: { total: 300, subExpense: { Groceries: 300, 'Dine-out': 123 } },
-//     Transport: { total: 250, subExpense: { Uber: 250, CTA: 150 } }
-//   }
-
-export const getAggregateExpenses = (expenses) => {
-    aggregateExpenses = {}
-    expenses.forEach((expense) => {
+export const getAggregateExpenses = (spendingHistory) => {
+    console.log("get Aggregate expense called\n")
+    console.log("spending History: \n");
+    console.log(spendingHistory)
+    var aggregateExpenses = {}
+    spendingHistory.forEach((expense) => {
         const { date, category, subcategory, amount } = expense
         if (category in aggregateExpenses) {
             if (subcategory in aggregateExpenses[category]) {
@@ -28,5 +66,7 @@ export const getAggregateExpenses = (expenses) => {
             aggregateExpenses[category] = { total: amount, subExpense: { [subcategory]: amount } }
         }
     })
+    console.log(`result: \n`)
+    console.log(aggregateExpenses); 
     return aggregateExpenses;
 }

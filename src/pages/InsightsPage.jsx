@@ -4,50 +4,57 @@ import { Typography } from "@mui/material";
 import { readData, altReadData } from "../utility/query";
 import { dummyData } from "../assets/dummy_data";
 import { useState, useEffect } from "react";
+import { getExpensesForDate, getExpensesForMonth, getAggregateExpenses, AggData} from "../utility/aggregateData";
 
 const InsightsPage = () => {
-  const { Income, Budget, Expenses } = dummyData;
+  const spendingHistory = dummyData["SpendingHistory"]; 
+  // const spendingHistory = localStorage.getItem('SpendingHistory')
+  console.log(spendingHistory); 
+  const { User, Income, Budget, Expenses} = dummyData;
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [expensesState, setExpensesState] = useState(Expenses);
   // turns number into comma-separated dollar amount
   const income = Income.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   const budget = Budget.Monthly.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  // useEffect(() => {
-  //   const init = () => {
-  //     let tempTotalExpen = 0;
-
-  //     Object.entries(expensesState).map((expense) => {
-  //       const [_, breakdown] = expense;
-  //       const { total } = breakdown;
-
-  //       tempTotalExpen += total;
-  //     });
-
-  //     setTotalExpenses(tempTotalExpen);
-  //   };
-
-  //   const read = async () => {
-  //     await readData("users");
-  //   };
-
-  //   init();
-  // }, [expensesState]);
-  // console.log(totalExpenses)
+  //get the month
   let date = new Date();
   let month = date.getMonth() + 1;
+  //number of days in the given month! 
   let numberDays = new Date(2023, month, 0).getDate()
-  //avg amount spent allowed per day
+  //budget per day if we assume budget is uniform via all days of month!
   let dailyBudget = Budget.Monthly / numberDays
-  const spendingPerDay = 0; // todo: calculate new Date().getDate()
-  const onTrackSpendingPerDay = Budget.Monthly / numberDays; // todo: calculate
-  
+  const spendingPerDay = (Income / numberDays).toFixed(2); 
+  //cur day of month as of right now! 
+  const curDay = date.getUTCDate(); 
+  //num days left in current month!
+  let numDaysLeft = numberDays - curDay 
+  //avg amount spending allowed for remaining income over rem days! 
+  const remainingIncome = (Income - totalExpenses)
+  //console.log("remainingIncome: ", remainingIncome)
+  const onTrackSpendingPerDay = (remainingIncome / numDaysLeft).toFixed(2); 
+  //console.log("onTrack: ", onTrackSpendingPerDay)
+  const dates = ["2023-10-01","2023-10-02","2023-10-03","2023-10-04"];
+  const categories = ["Rent", "Food", "Transport"];
+  const aggregateSeries = categories.map(category => {
+    console.log(`cur category: ${category}`);
+    return ({
+      data: dates.map(date => {
+        console.log(spendingHistory);
+        let expensesForToday = getExpensesForDate(spendingHistory, date);
+        console.log(`Length of array: ${expensesForToday.length}`);
+        console.log(`${getAggregateExpenses(expensesForToday)[category]}`);
+        return getAggregateExpenses(expensesForToday)[category].total;
+      }),
+      label: category
+    })
+  })
   return (
     <MenuContainer>
       <Typography variant="h1" sx={{ pt: 4 }}>
         Spending Insights
       </Typography>
-      <BarChart series = {[{ data: [4, 3, 5], label: "Rent" }, { data: [1, 6, 3], label: "Food" }, { data: [2, 5, 6], label: "Transport"}]} 
-                xAxis={[{ scaleType: 'band', data: ['date1', 'date2', 'date3'] }]}/>
+      <BarChart series = {aggregateSeries} 
+                xAxis={[{ scaleType: 'band', data: dates }]}/>
       <Typography variant="h2" sx={{ pb: 2 }}>
         Spending Recommendations
       </Typography>
@@ -56,7 +63,7 @@ const InsightsPage = () => {
         spending about ${spendingPerDay} per day.
       </Typography>
       <Typography variant="body1" sx={{ lineHeight: "2.5", pb: 4 }}>
-        Based off of your current spending, you can only spend about ${onTrackSpendingPerDay} per 
+        Based off of your current spending, you can spend about ${onTrackSpendingPerDay} per 
         day to stay on track.
       </Typography>
       

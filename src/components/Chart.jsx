@@ -9,7 +9,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 
-const Chart = ({ budget, setMonthlyBudget, totalExpenses }) => {
+const Chart = ({ budget, setMonthlyBudget, totalExpenses, handleBudgetChange }) => {
   const theme = useTheme();
 
   const StyledText = styled("text")(({ theme }) => ({
@@ -49,6 +49,7 @@ const Chart = ({ budget, setMonthlyBudget, totalExpenses }) => {
         <TextField
           defaultValue={budget}
           onChange={(event) => setMonthlyBudget(event.target.value)}
+          onKeyDown={(event) => handleBudgetChange(event)}
           InputProps={{
             startAdornment: <InputAdornment position="start">$</InputAdornment>,
           }}
@@ -68,7 +69,7 @@ const Chart = ({ budget, setMonthlyBudget, totalExpenses }) => {
         ]}
         width={350}
         height={350}
-        colors={[theme.palette.primary.main, theme.palette.primary[3]]}
+        colors={[theme.palette.primary[3], theme.palette.primary.main]}
         sx={{
           "--ChartsLegend-itemWidth": "200px",
           "--ChartsLegend-itemMarkSize": "20px",

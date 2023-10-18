@@ -14,6 +14,7 @@ const ExpenseBreakdown = ({ expense, handleExpensesStateChange, expenses }) => {
           justifyContent: "space-between",
           alignItems: "center",
           pt: 1,
+          pb: 1,
         }}
       >
         <Grid item xs={4}>

@@ -43,7 +43,6 @@ const useAuthState = () => {
 };
 
 const handleLogin = async (navigate) => {
-  // const navigate = useNavigate();
   signInWithPopup(auth, provider)
     .then(async (result) => {
       const user = result.user;
@@ -110,6 +109,25 @@ const signUpWithGoogle = async (navigate) => {
           displayName: user.displayName,
           photoURL: user.photoURL,
           onboarded: false,
+          expenses: {
+            "Rent":
+            {"total":0,
+              "subExpense":
+                {"BaseRent":0,
+                 "Utilities":0}
+            },
+          "Food":
+            {"total":0,
+              "subExpense":
+                {"Groceries":0,
+                "Dine-Out":0}},
+          "Transport":
+            {"total":0,
+             "subExpense":
+              {"Uber":0,
+                "CTA":0}}
+          }
+
         };
 
         await setDoc(userDocRef, userData, { merge: true });
@@ -150,6 +168,10 @@ const isOnboarded = async () => {
     const data = snapshot.data();
     const { onboarded } = data;
 
+    if (onboarded === undefined) {
+      return false;
+    } 
+
     return onboarded;
   } else {
     return false;
@@ -162,6 +184,7 @@ const submitOnboardingInformation = async (income, budget) => {
   const userData = {
     income: income,
     budget: budget,
+    SpendingHistory: [],
   };
 
   await setDoc(userDocRef, userData, { merge: true });
@@ -170,8 +193,16 @@ const submitOnboardingInformation = async (income, budget) => {
   });
 };
 
+export const addExpense = async (SpendingHistory) => {
+  const id = localStorage.getItem("uid");
+  const userDocRef = doc(db, "users", id);
+  await updateDoc(userDocRef, {
+    SpendingHistory: SpendingHistory,
+  });
+}
+
 export async function changeIncome(income) {
-  const id = localstorage.getItem("uid");
+  const id = localStorage.getItem("uid");
   const userDocRef = doc(db, "users", id);
   await updateDoc(userDocRef, {
     income: income,
@@ -179,7 +210,7 @@ export async function changeIncome(income) {
 }
 
 export async function changeBudget(budget) {
-  const id = localstorage.getItem("uid");
+  const id = localStorage.getItem("uid");
   const userDocRef = doc(db, "users", id);
   await updateDoc(userDocRef, {
     budget: budget,
@@ -212,6 +243,15 @@ export async function getBudget() {
   }
 }
 
+export async function updateData(obj) {
+  const id = localStorage.getItem("uid");
+  const userDocRef = doc(db, "users", id);
+  await updateDoc(userDocRef, {
+    expenses: obj
+  });
+}
+
+
 export {
   db,
   auth,
@@ -226,13 +266,3 @@ export {
   isOnboarded,
   submitOnboardingInformation,
 };
-// try {
-//   const docRef = await addDoc(collection(db, "users"), {
-//     first: "Ada",
-//     last: "Lovelace",
-//     born: 1815
-//   });
-//   console.log("Document written with ID: ", docRef.id);
-// } catch (e) {
-//   console.error("Error adding document: ", e);
-// }

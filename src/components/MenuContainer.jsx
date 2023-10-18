@@ -20,6 +20,9 @@ import { ChevronLeft, Menu, Home, Logout, Insights } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/budget buddy.png";
 import { handleLogOut } from "../utility/firebase";
+import logoNeutral from "../assets/budget buddy.png";
+import logoGood from "../assets/budget_buddy_good.png";
+import logoEvil from "../assets/budget_buddy_evil.png";
 
 const drawerWidth = 360;
 
@@ -73,6 +76,17 @@ const MenuContainer = (props) => {
   const navigate = useNavigate();
   const userName = localStorage.getItem("name");
   const photoUrl = localStorage.getItem("photoUrl");
+
+  const budget = props.data.budget ? props.data.budget : 0;
+  const totalSpent = props.totalExpenses ? props.totalExpenses : 0;
+
+  const spendingBreakpoints = [ budget / 3, budget * 2 / 3, budget ];
+
+  var logo = totalSpent <= spendingBreakpoints[0] 
+    ? logoGood 
+    : totalSpent <= spendingBreakpoints[1] 
+      ? logoNeutral 
+      : logoEvil;
 
   const handleDrawer = () => {
     setOpen(!open);

@@ -8,13 +8,13 @@ import {
   FormControl,
   InputLabel,
   Input,
-  InputAdornment,
 } from "@mui/material";
 import SetupHeader from "../components/SetupHeader";
 import logo from "../assets/budget_buddy_cropped.png";
+import { signOut } from "firebase/auth";
 import { submitOnboardingInformation, auth } from "../utility/firebase";
 
-function OnboardingScreen() {
+const OnboardingScreen = ({ setIsOnboardedState }) => {
   const theme = useTheme();
   const [income, setIncome] = useState(0);
   const [budget, setBudget] = useState(0);
@@ -22,8 +22,17 @@ function OnboardingScreen() {
 
   const handleSubmitOnboarding = async () => {
     await submitOnboardingInformation(income, budget, auth.currentUser.uid);
-    navigate("*");
+    setIsOnboardedState(true);
   };
+
+  const handleGoBack = () => {
+    signOut(auth);
+    localStorage.removeItem("isSignedIn");
+    localStorage.removeItem("name");
+    localStorage.removeItem("photoUrl");
+    localStorage.removeItem("uid");
+    navigate("/login")
+  }
 
   return (
     <Box>
@@ -40,6 +49,21 @@ function OnboardingScreen() {
           flexDirection: "column",
         }}
       >
+        <Button
+              variant="contained"
+              onClick={handleGoBack}
+              sx={{
+                backgroundColor: theme.palette.primary[2],
+                color: theme.palette.text.primary,
+                border: `1px solid ${theme.palette.primary[5]}`,
+                borderRadius: "10px",
+                "&:hover": {
+                  backgroundColor: theme.palette.primary[3],
+                },
+              }}
+            >
+              Go Back
+            </Button>
         <Grid
           item
           xs={6}
@@ -49,7 +73,7 @@ function OnboardingScreen() {
             alignItems: "flex-start",
             width: "100%",
             maxWidth: "100%",
-            pt: 6,
+            pt: 4,
           }}
         >
           <Box
