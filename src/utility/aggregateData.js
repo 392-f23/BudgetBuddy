@@ -3,14 +3,9 @@
 export const getExpensesForMonth = (spendingHistory, month) => {
     return spendingHistory.filter((expense) => new Date(expense.date).getMonth() == month)
 }
-//NOT WORKING
+
 export const getExpensesForDate = (spendingHistory, date) => {
-    console.log("passed in date: \n")
-    console.log(date)
-    return spendingHistory.filter((expense) => {
-        console.log(`cur expense date: ${expense.date}`); 
-        expense.date === date
-    }); 
+    return spendingHistory.filter((expense) => expense.date === date);
 }
 
 export const AggData = (SpendingHistory) => {
@@ -50,9 +45,6 @@ export const AggData = (SpendingHistory) => {
 }
 
 export const getAggregateExpenses = (spendingHistory) => {
-    console.log("get Aggregate expense called\n")
-    console.log("spending History: \n");
-    console.log(spendingHistory)
     var aggregateExpenses = {}
     spendingHistory.forEach((expense) => {
         const { date, category, subcategory, amount } = expense
@@ -66,7 +58,5 @@ export const getAggregateExpenses = (spendingHistory) => {
             aggregateExpenses[category] = { total: amount, subExpense: { [subcategory]: amount } }
         }
     })
-    console.log(`result: \n`)
-    console.log(aggregateExpenses); 
     return aggregateExpenses;
 }

@@ -7,9 +7,8 @@ import { useState, useEffect } from "react";
 import { getExpensesForDate, getExpensesForMonth, getAggregateExpenses, AggData} from "../utility/aggregateData";
 
 const InsightsPage = () => {
-  const spendingHistory = dummyData["SpendingHistory"]; 
-  // const spendingHistory = localStorage.getItem('SpendingHistory')
-  console.log(spendingHistory); 
+  const spendingHistory = JSON.parse(localStorage.getItem('SpendingHistory'))
+  console.log(spendingHistory)
   const { User, Income, Budget, Expenses} = dummyData;
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [expensesState, setExpensesState] = useState(Expenses);
@@ -36,20 +35,17 @@ const InsightsPage = () => {
   const dates = ["2023-10-01","2023-10-02","2023-10-03","2023-10-04"];
   const categories = ["Rent", "Food", "Transport"];
   const aggregateSeries = categories.map(category => {
-    console.log(`cur category: ${category}`);
     return ({
       data: dates.map(date => {
-        console.log(spendingHistory);
+        console.log(spendingHistory)
         let expensesForToday = getExpensesForDate(spendingHistory, date);
-        console.log(`Length of array: ${expensesForToday.length}`);
-        console.log(`${getAggregateExpenses(expensesForToday)[category]}`);
-        return getAggregateExpenses(expensesForToday)[category].total;
+        return category in getAggregateExpenses(expensesForToday) ? getAggregateExpenses(expensesForToday)[category].total : 0;
       }),
       label: category
     })
   })
   return (
-    <MenuContainer>
+    <MenuContainer data={dummyData}>
       <Typography variant="h1" sx={{ pt: 4 }}>
         Spending Insights
       </Typography>

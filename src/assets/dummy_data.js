@@ -59,13 +59,13 @@ export const dummyData = {
       date: "2023-10-03",
       category: "Transport",
       subcategory: "Uber",
-      amount: "250"
+      amount: 250
     },
     {
       date: "2023-10-04",
       category: "Transport",
       subcategory: "CTA",
-      amount: "150"
+      amount: 150
     }
   ]
 };
