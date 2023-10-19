@@ -182,9 +182,43 @@ const submitOnboardingInformation = async (income, budget) => {
 export const addExpense = async (SpendingHistory) => {
   const id = localStorage.getItem("uid");
   const userDocRef = doc(db, "users", id);
-  await updateDoc(userDocRef, {
-    SpendingHistory: SpendingHistory,
-  });
+
+  const docSnap = await getDoc(userDocRef);
+
+  if (docSnap.exists()) {
+    const data = docSnap.data();
+    const { expenses } = data;
+    const { category, subcategory, amount } =
+      SpendingHistory[SpendingHistory.length - 1];
+
+    if (category in expenses) {
+      const { subExpense, total } = expenses[category];
+
+      if (subcategory in subExpense) {
+        const value = subExpense[subcategory] + amount;
+        const newSubExpense = {
+          ...subExpense,
+          [subcategory]: value,
+        };
+
+        const newExpense = {
+          ...expenses,
+          [category]: {
+            subExpense: newSubExpense,
+            total: total + value,
+          },
+        };
+
+        await updateDoc(userDocRef, {
+          expenses: newExpense,
+        });
+      }
+    }
+
+    await updateDoc(userDocRef, {
+      SpendingHistory: SpendingHistory,
+    });
+  }
 };
 
 export async function changeIncome(income) {
