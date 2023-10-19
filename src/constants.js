@@ -7,4 +7,6 @@ const categoryMapper = {
   CTA: "Transport",
 };
 
-export default categoryMapper;
+const sortedCategories = ["Rent", "Food", "Transport"];
+
+export { categoryMapper, sortedCategories };

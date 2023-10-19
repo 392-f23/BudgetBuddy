@@ -6,8 +6,9 @@ import AddExpenseModal from "./AddExpenseModal.jsx";
 import LoadingContainer from "./LoadingContainer";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../utility/firebase.js";
+import { sortedCategories } from "../constants.js";
 
-const ExpenseSection = ({ handleExpensesStateChange, budgets }) => {
+const ExpenseSection = ({ handleExpensesStateChange }) => {
   const [state, setState] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -15,7 +16,11 @@ const ExpenseSection = ({ handleExpensesStateChange, budgets }) => {
   const [expenses, setExpenses] = useState({});
 
   const handleOpen = () => setShowModal(true);
-  const handleClose = () => setShowModal(false);
+  const handleClose = () => {
+    setShowModal(false);
+    setRecalculate(!recalculate);
+  };
+
   const theme = useTheme();
 
   useEffect(() => {
@@ -27,13 +32,13 @@ const ExpenseSection = ({ handleExpensesStateChange, budgets }) => {
 
       if (docSnap.exists()) {
         const data = docSnap.data();
-        const { expenses } = data;
+        const { expenses, budgetByCategory } = data;
         const temp = [];
 
-        Object.entries(expenses).map(([expense, value]) => {
-          const initialBudget = budgets[expense];
-          const { total, subExpense } = value;
-          temp.push([expense, (100 * total) / initialBudget, subExpense]);
+        sortedCategories.forEach((key) => {
+          const initialBudget = budgetByCategory[key];
+          const { total, subExpense } = expenses[key];
+          temp.push([key, (100 * total) / initialBudget, subExpense]);
         });
 
         setExpenses(expenses);
@@ -44,12 +49,6 @@ const ExpenseSection = ({ handleExpensesStateChange, budgets }) => {
 
     initialize();
   }, [recalculate]);
-
-  useEffect(() => {
-    if (!showModal) {
-      setRecalculate(!recalculate);
-    }
-  }, [showModal]);
 
   return (
     <LoadingContainer isLoading={isLoading}>

@@ -32,7 +32,7 @@ function AddExpenseModal({ open, onClose }) {
     setExpenseAmount(parseInt(event.target.value, 10));
   };
 
-  const handleExpenseUpdate = () => {
+  const handleExpenseUpdate = async () => {
     const SpendingHistory = JSON.parse(localStorage.getItem("SpendingHistory"));
 
     SpendingHistory.push({
@@ -42,7 +42,7 @@ function AddExpenseModal({ open, onClose }) {
       amount: expenseAmount,
     });
 
-    addExpense(SpendingHistory);
+    await addExpense(SpendingHistory);
     onClose();
   };
 

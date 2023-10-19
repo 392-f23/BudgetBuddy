@@ -164,12 +164,23 @@ const isOnboarded = async () => {
   }
 };
 
-const submitOnboardingInformation = async (income, budget) => {
+const submitOnboardingInformation = async (
+  income,
+  budget,
+  rent,
+  food,
+  transportation
+) => {
   const id = localStorage.getItem("uid");
   const userDocRef = doc(db, "users", id);
   const userData = {
     income: income,
     budget: budget,
+    budgetByCategory: {
+      Rent: rent,
+      Food: food,
+      Transport: transportation,
+    },
     SpendingHistory: [],
   };
 

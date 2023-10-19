@@ -65,7 +65,7 @@ function HomePage() {
         <ExpenseSection
           // expenses={expenses}
           handleExpensesStateChange={setExpenses}
-          budgets={Budget}
+          // budgets={Budget}
         />
       </MenuContainer>
     </LoadingContainer>
