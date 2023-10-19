@@ -1,7 +1,12 @@
 import { db } from "./firebase";
-import { getDocs, collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import {
+  getDocs,
+  collection,
+  doc,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { useState } from "react";
-
 
 export async function readData(path) {
   const querySnapshot = await getDocs(collection(db, path));
@@ -41,6 +46,5 @@ export const fetchUserData = async (uid) => {
 
   return null;
 };
-
 
 export default readData;

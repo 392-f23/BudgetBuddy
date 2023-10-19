@@ -5,32 +5,19 @@ import ExpenseSection from "../components/ExpenseSection";
 import { dummyData } from "../assets/dummy_data";
 import { fetchUserData } from "../utility/query";
 import MenuContainer from "../components/MenuContainer";
-// import { getIncome, getBudget } from "../utility/firebase";
 import LoadingContainer from "../components/LoadingContainer";
 import { AggData } from "../utility/aggregateData";
 
 function HomePage() {
   const { User, Income, Budget, Expenses, SpendingHistory } = dummyData;
-  const [expenses, setExpenses] = useState({})
+  const [expenses, setExpenses] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [budget, setBudget] = useState(0);
   const [income, setIncome] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [expensesState, setExpensesState] = useState(Expenses);
-  const [data, setData] = useState({}); 
-  //const [spendingHistory, setSpendingHistory] = useState(""); 
+  const [data, setData] = useState({});
 
-  // useEffect(() => {
-  //   const init = async () => {
-  //     const incomeTemp = await getIncome();
-  //     setIncome(incomeTemp);
-  //     const budgetTemp = await getBudget();
-  //     setBudget(budgetTemp);
-  //   };
-  //   init();
-  // }, []);
-
-  //use uid in LocalStorage for querying DB to get up-to-date info!
   useEffect(() => {
     const init = () => {
       let tempTotalExpen = 0;
@@ -41,36 +28,26 @@ function HomePage() {
 
         tempTotalExpen += total;
       });
-
-      // setTotalExpenses(tempTotalExpen);
     };
 
     const read = async () => {
       setIsLoading(true);
       const uid = localStorage.getItem("uid");
       const data = await fetchUserData(uid);
-      // const data = await fetchUserData("test");
-      //no data
       if (!data) {
         return;
       }
 
-      const { income, budget, SpendingHistory} = data;
-      console.log("data:", data)
+      const { income, budget, SpendingHistory } = data;
       setData(data);
-      console.log(SpendingHistory)
       setIncome(income);
       setBudget(budget);
       setIsLoading(false);
-      //setSpendingHistory(spendingHistory)
-      const [Expenses, totalExpenses] = AggData(SpendingHistory)
-      console.log("total:", totalExpenses);
+      const [Expenses, totalExpenses] = AggData(SpendingHistory);
       setExpenses(Expenses);
-      setTotalExpenses(totalExpenses)
-      localStorage.setItem("SpendingHistory", JSON.stringify(SpendingHistory)); 
+      setTotalExpenses(totalExpenses);
+      localStorage.setItem("SpendingHistory", JSON.stringify(SpendingHistory));
     };
-
-    // const getExpenses = async 
 
     init();
     read();
@@ -86,7 +63,7 @@ function HomePage() {
           totalExpenses={totalExpenses}
         />
         <ExpenseSection
-          expenses={expenses}
+          // expenses={expenses}
           handleExpensesStateChange={setExpenses}
           budgets={Budget}
         />

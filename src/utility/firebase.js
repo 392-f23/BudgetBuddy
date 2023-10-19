@@ -110,24 +110,10 @@ const signUpWithGoogle = async (navigate) => {
           photoURL: user.photoURL,
           onboarded: false,
           expenses: {
-            "Rent":
-            {"total":0,
-              "subExpense":
-                {"BaseRent":0,
-                 "Utilities":0}
-            },
-          "Food":
-            {"total":0,
-              "subExpense":
-                {"Groceries":0,
-                "Dine-Out":0}},
-          "Transport":
-            {"total":0,
-             "subExpense":
-              {"Uber":0,
-                "CTA":0}}
-          }
-
+            Rent: { total: 0, subExpense: { BaseRent: 0, Utilities: 0 } },
+            Food: { total: 0, subExpense: { Groceries: 0, "Dine-Out": 0 } },
+            Transport: { total: 0, subExpense: { Uber: 0, CTA: 0 } },
+          },
         };
 
         await setDoc(userDocRef, userData, { merge: true });
@@ -170,7 +156,7 @@ const isOnboarded = async () => {
 
     if (onboarded === undefined) {
       return false;
-    } 
+    }
 
     return onboarded;
   } else {
@@ -199,7 +185,7 @@ export const addExpense = async (SpendingHistory) => {
   await updateDoc(userDocRef, {
     SpendingHistory: SpendingHistory,
   });
-}
+};
 
 export async function changeIncome(income) {
   const id = localStorage.getItem("uid");
@@ -247,10 +233,9 @@ export async function updateData(obj) {
   const id = localStorage.getItem("uid");
   const userDocRef = doc(db, "users", id);
   await updateDoc(userDocRef, {
-    expenses: obj
+    expenses: obj,
   });
 }
-
 
 export {
   db,
