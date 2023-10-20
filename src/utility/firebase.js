@@ -286,11 +286,30 @@ export async function updateData(obj) {
 export async function changeBudgetByCategory(category, budget) {
   const id = localStorage.getItem("uid");
   const userDocRef = doc(db, "users", id);
-  await updateDoc(userDocRef, {
-    budgetByCategory: {
+  const docSnap = await getDoc(userDocRef);
+
+  if (docSnap.exists()) {
+    const data = docSnap.data();
+    const { budgetByCategory } = data;
+
+    const newBudgetByCategory = {
+      ...budgetByCategory,
       [category]: budget,
-    },
-  });
+    };
+
+    await updateDoc(userDocRef, {
+      budgetByCategory: newBudgetByCategory,
+    });
+
+    const newTotal = Object.entries(newBudgetByCategory).reduce(
+      (sum, [_, value]) => sum + value,
+      0
+    );
+
+    await updateDoc(userDocRef, {
+      budget: newTotal,
+    });
+  }
 }
 
 export {

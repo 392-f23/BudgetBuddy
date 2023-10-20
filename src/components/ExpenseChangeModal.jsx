@@ -11,10 +11,16 @@ import {
   InputAdornment,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { changeBudgetByCategory } from "../utility/firebase";
 
 const ExpenseChangeModal = ({ open, onClose, category, currentBudget }) => {
   const theme = useTheme();
   const [newBudget, setNewBudget] = useState(0);
+
+  const handleBudgetUpdate = () => {
+    changeBudgetByCategory(category, newBudget);
+    onClose();
+  };
 
   return (
     <Modal
@@ -105,7 +111,7 @@ const ExpenseChangeModal = ({ open, onClose, category, currentBudget }) => {
         <Button
           fullWidth
           variant="contained"
-          // onClick={() => handleExpenseUpdate()}
+          onClick={() => handleBudgetUpdate()}
         >
           Update Budget
         </Button>

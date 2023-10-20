@@ -82,7 +82,7 @@ const ExpenseBreakdown = ({
       </Box>
       <ExpenseChangeModal
         open={showModal}
-        close={handleClose}
+        onClose={handleClose}
         category={expense[0]}
         currentBudget={budgetCategory[expense[0]]}
       />
