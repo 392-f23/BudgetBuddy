@@ -14,6 +14,7 @@ const ExpenseSection = ({ handleExpensesStateChange }) => {
   const [showModal, setShowModal] = useState(false);
   const [recalculate, setRecalculate] = useState(false);
   const [expenses, setExpenses] = useState({});
+  const [budgetCategory, setBudgetCategory] = useState({});
 
   const handleOpen = () => setShowModal(true);
   const handleClose = () => {
@@ -43,6 +44,7 @@ const ExpenseSection = ({ handleExpensesStateChange }) => {
 
         setExpenses(expenses);
         setState(temp);
+        setBudgetCategory(budgetByCategory);
       }
       setIsLoading(false);
     };
@@ -95,7 +97,14 @@ const ExpenseSection = ({ handleExpensesStateChange }) => {
           ))
         )}
       </Box>
-      {showModal && <AddExpenseModal open={showModal} onClose={handleClose} />}
+      {showModal && (
+        <AddExpenseModal
+          open={showModal}
+          onClose={handleClose}
+          budgetCategory={budgetCategory}
+          expenses={expenses}
+        />
+      )}
     </LoadingContainer>
   );
 };
