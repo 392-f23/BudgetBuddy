@@ -93,6 +93,7 @@ const ExpenseSection = ({ handleExpensesStateChange }) => {
               key={expense}
               handleExpensesStateChange={handleExpensesStateChange}
               expenses={expenses}
+              budgetCategory={budgetCategory}
             />
           ))
         )}
