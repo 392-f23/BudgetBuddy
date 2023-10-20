@@ -31,7 +31,7 @@ export const theme = createTheme({
     typography: {
         h1: {
             fontFamily: "Lato",
-            fontSize: "2.3rem",
+            fontSize: "2rem",
             fontWeight: 900,
         },
         h2: {

@@ -51,7 +51,7 @@ const ExpenseBreakdown = ({
           <Grid item xs={4}>
             <Typography variant="h3">{expense[0]}</Typography>
           </Grid>
-          <Grid item xs={7}>
+          <Grid item xs={6}>
             <LinearProgress
               variant="determinate"
               sx={{
@@ -63,7 +63,7 @@ const ExpenseBreakdown = ({
               value={expense[1]}
             />
           </Grid>
-          <Grid item xs={1} sx={{ textAlign: "right" }}>
+          <Grid item xs={2} sx={{ textAlign: "right" }}>
             <IconButton onClick={() => handleOpen()}>
               <EditIcon
                 style={{

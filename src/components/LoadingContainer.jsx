@@ -16,7 +16,17 @@ const LoadingContainer = (props) => {
       <CircularProgress />
     </Box>
   ) : (
-    children
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+        width: "100%",
+      }}
+    >
+      {children}
+    </Box>
   );
 };
 

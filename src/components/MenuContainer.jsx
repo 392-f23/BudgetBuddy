@@ -125,7 +125,7 @@ const MenuContainer = (props) => {
             </Grid>
             <Grid
               item
-              xs={8}
+              xs={7}
               sx={{
                 display: "flex",
                 justifyContent: "center",
@@ -148,7 +148,7 @@ const MenuContainer = (props) => {
                 </Typography>
                 <Typography
                   variant="h6"
-                  style={{ color: theme.palette.text[1] }}
+                  style={{ color: theme.palette.text[1], textAlign: "center" }}
                 >
                   {`Welcome back, ${userName}!`}
                 </Typography>
@@ -156,7 +156,7 @@ const MenuContainer = (props) => {
             </Grid>
             <Grid
               item
-              xs={2}
+              xs={3}
               sx={{
                 display: "flex",
                 justifyContent: "flex-end",

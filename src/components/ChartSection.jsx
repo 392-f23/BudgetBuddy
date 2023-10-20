@@ -79,6 +79,7 @@ const ChartSection = ({ income, budget, setMonthlyBudget, totalExpenses }) => {
               justifyContent: "center",
               alignItems: "center",
               marginRight: "20px",
+              pl: 2,
             }}
           >
             Your monthly income:

@@ -25,3 +25,8 @@ code {
     max-width: 10%;
   }
 }
+
+html {
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
