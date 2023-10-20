@@ -95,6 +95,7 @@ const ExpenseBreakdown = ({
         category={expense[0]}
         currentBudget={budgetCategory[expense[0]]}
         setIsBudgetUpdated={setIsBudgetUpdated}
+        expenses={expenses}
       />
     </>
   );
