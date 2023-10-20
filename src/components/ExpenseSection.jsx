@@ -7,19 +7,20 @@ import LoadingContainer from "./LoadingContainer";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../utility/firebase.js";
 import { sortedCategories } from "../constants.js";
+import { useNavigate } from "react-router-dom";
 
 const ExpenseSection = ({ handleExpensesStateChange }) => {
   const [state, setState] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [recalculate, setRecalculate] = useState(false);
   const [expenses, setExpenses] = useState({});
   const [budgetCategory, setBudgetCategory] = useState({});
+  const [isExpenseAdded, setIsExpenseAdded] = useState(null);
+  const navigate = useNavigate();
 
   const handleOpen = () => setShowModal(true);
   const handleClose = () => {
     setShowModal(false);
-    setRecalculate(!recalculate);
   };
 
   const theme = useTheme();
@@ -50,7 +51,13 @@ const ExpenseSection = ({ handleExpensesStateChange }) => {
     };
 
     initialize();
-  }, [recalculate]);
+  }, []);
+
+  useEffect(() => {
+    if (!!isExpenseAdded && isExpenseAdded) {
+      navigate(0);
+    }
+  }, [isExpenseAdded]);
 
   return (
     <LoadingContainer isLoading={isLoading}>
@@ -104,6 +111,7 @@ const ExpenseSection = ({ handleExpensesStateChange }) => {
           onClose={handleClose}
           budgetCategory={budgetCategory}
           expenses={expenses}
+          setIsExpenseAdded={setIsExpenseAdded}
         />
       )}
     </LoadingContainer>

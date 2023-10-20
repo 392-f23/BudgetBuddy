@@ -10,6 +10,7 @@ import {
 import Expense from "./Expense";
 import EditIcon from "@mui/icons-material/Edit";
 import ExpenseChangeModal from "./ExpenseChangeModal";
+import { useNavigate } from "react-router-dom";
 
 const ExpenseBreakdown = ({
   expense,
@@ -19,11 +20,19 @@ const ExpenseBreakdown = ({
 }) => {
   const theme = useTheme();
   const [showModal, setShowModal] = useState(false);
+  const [isBudgetUpdated, setIsBudgetUpdated] = useState(null);
+  const navigate = useNavigate();
 
   const handleOpen = () => setShowModal(true);
   const handleClose = () => {
     setShowModal(false);
   };
+
+  useEffect(() => {
+    if (!!isBudgetUpdated && isBudgetUpdated) {
+      navigate(0);
+    }
+  }, [isBudgetUpdated]);
 
   return (
     <>
@@ -55,7 +64,7 @@ const ExpenseBreakdown = ({
             />
           </Grid>
           <Grid item xs={1} sx={{ textAlign: "right" }}>
-            <IconButton onClick={() => setShowModal(true)}>
+            <IconButton onClick={() => handleOpen()}>
               <EditIcon
                 style={{
                   backgroundColor: theme.palette.primary.main,
@@ -85,6 +94,7 @@ const ExpenseBreakdown = ({
         onClose={handleClose}
         category={expense[0]}
         currentBudget={budgetCategory[expense[0]]}
+        setIsBudgetUpdated={setIsBudgetUpdated}
       />
     </>
   );

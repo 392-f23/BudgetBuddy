@@ -20,7 +20,13 @@ import { addExpense } from "../utility/firebase";
 import { categoryMapper } from "../constants";
 import { Alert } from "@mui/material";
 
-function AddExpenseModal({ open, onClose, budgetCategory, expenses }) {
+function AddExpenseModal({
+  open,
+  onClose,
+  budgetCategory,
+  expenses,
+  setIsExpenseAdded,
+}) {
   const theme = useTheme();
   const [expenseCategory, setExpenseCategory] = useState("");
   const [expenseDate, setExpenseDate] = useState(dayjs());
@@ -69,6 +75,7 @@ function AddExpenseModal({ open, onClose, budgetCategory, expenses }) {
         subcategory: expenseCategory,
         amount: expenseAmount,
       });
+      setIsExpenseAdded(true);
 
       onClose();
     }
