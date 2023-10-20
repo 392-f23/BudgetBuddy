@@ -34,6 +34,7 @@ function HomePage() {
       setIsLoading(true);
       const uid = localStorage.getItem("uid");
       const data = await fetchUserData(uid);
+
       if (!data) {
         return;
       }
@@ -62,11 +63,7 @@ function HomePage() {
           setMonthlyBudget={setBudget}
           totalExpenses={totalExpenses}
         />
-        <ExpenseSection
-          // expenses={expenses}
-          handleExpensesStateChange={setExpenses}
-          // budgets={Budget}
-        />
+        <ExpenseSection handleExpensesStateChange={setExpenses} />
       </MenuContainer>
     </LoadingContainer>
   );

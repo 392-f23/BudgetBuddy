@@ -1,24 +1,9 @@
-import { useEffect, useState } from "react";
-import { auth, provider } from "../utility/firebase";
-import {
-  AppBar,
-  Box,
-  Button,
-  Grid,
-  Toolbar,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Box, Button, Grid, useTheme } from "@mui/material";
 import logo from "../assets/budget_buddy_cropped.png";
 import GoogleIcon from "@mui/icons-material/Google";
 import SetupHeader from "../components/SetupHeader";
-import { NavLink, useNavigate } from "react-router-dom";
-import {
-  useAuthState,
-  handleLogin,
-  signUpWithGoogle,
-} from "../utility/firebase";
-import { signInWithPopup } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { signUpWithGoogle } from "../utility/firebase";
 
 function LoginPage() {
   const navigate = useNavigate();
