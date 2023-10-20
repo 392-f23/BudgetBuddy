@@ -12,7 +12,6 @@ import {
 import logo from "../assets/budget_buddy_cropped.png";
 import GoogleIcon from "@mui/icons-material/Google";
 import SetupHeader from "../components/SetupHeader";
-import readData from "../utility/query";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   useAuthState,
@@ -22,36 +21,12 @@ import {
 import { signInWithPopup } from "firebase/auth";
 
 function LoginPage() {
-  //const [user] = useAuthState();
-
-  useEffect(() => {
-    const read = async () => {
-      await readData("users");
-    };
-    read();
-  }, []);
-  //SETUP NAVIGATE HERE
   const navigate = useNavigate();
-  /*
-  const handleLogin = () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const uid = result["user"]["uid"];
-        // Redirect to home page upon successful sign-in
-        navigate("/home");
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };*/
-
-  //might need to interact with DB here!
-
   const theme = useTheme();
 
   return (
     <>
-      <SetupHeader text={"Sign in below"}/>
+      <SetupHeader text={"Sign in below"} />
       <Grid
         container
         sx={{
