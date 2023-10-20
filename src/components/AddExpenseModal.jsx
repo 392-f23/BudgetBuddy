@@ -36,7 +36,7 @@ function AddExpenseModal({ open, onClose }) {
     const SpendingHistory = JSON.parse(localStorage.getItem("SpendingHistory"));
 
     SpendingHistory.push({
-      date: expenseDate.toDate(),
+      date: expenseDate.toDate().toISOString().split("T")[0],
       category: catMapping[expenseCategory],
       subcategory: expenseCategory,
       amount: expenseAmount,

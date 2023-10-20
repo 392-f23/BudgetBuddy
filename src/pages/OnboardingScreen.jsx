@@ -8,6 +8,7 @@ import {
   FormControl,
   InputLabel,
   Input,
+  Typography,
 } from "@mui/material";
 import SetupHeader from "../components/SetupHeader";
 import logo from "../assets/budget_buddy_cropped.png";
@@ -27,6 +28,7 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
     isRentValidated: null,
     isFoodValidated: null,
     isTransportationValidated: null,
+    isWithinBudget: null,
   });
   const navigate = useNavigate();
 
@@ -61,6 +63,11 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
 
     if (!isTransportationValidated || isTransportationValidated === 0) {
       setValidation({ ...validation, isTransportationValidated: false });
+      return false;
+    }
+
+    if (rent + food + transportation > budget) {
+      setValidation({ ...validation, isWithinBudget: false });
       return false;
     }
 
@@ -167,10 +174,14 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
                 startAdornment="$"
               />
             </FormControl>
+            <Typography
+              variant={"h3"}
+              sx={{ textAlign: "center", marginTop: "10px" }}
+            >
+              How do you want to split up?
+            </Typography>
             <FormControl sx={{ width: "100%", marginTop: "20px" }}>
-              <InputLabel htmlFor="monthly-rent">
-                Your Total Budget For Rent This Month:
-              </InputLabel>
+              <InputLabel htmlFor="monthly-rent">Rent:</InputLabel>
               <Input
                 id="monthly-rent"
                 defaultValue="0"
@@ -179,9 +190,7 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
               />
             </FormControl>
             <FormControl sx={{ width: "100%", marginTop: "20px" }}>
-              <InputLabel htmlFor="monthly-food">
-                Your Total Budget For Food This Month:
-              </InputLabel>
+              <InputLabel htmlFor="monthly-food">Food:</InputLabel>
               <Input
                 id="monthly-food"
                 defaultValue="0"
@@ -191,7 +200,7 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
             </FormControl>
             <FormControl sx={{ width: "100%", marginTop: "20px" }}>
               <InputLabel htmlFor="monthly-transportation">
-                Your Total Budget For Transportation This Month:
+                Transportation:
               </InputLabel>
               <Input
                 id="monthly-transportation"

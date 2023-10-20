@@ -9,7 +9,6 @@ export const getExpensesForDate = (spendingHistory, date) => {
 };
 
 export const AggData = (SpendingHistory) => {
-  console.log(`type of spending history: ${typeof SpendingHistory}`);
   var totalExpenses = 0;
   var template = {
     Rent: {
@@ -48,6 +47,7 @@ export const AggData = (SpendingHistory) => {
 
 export const getAggregateExpenses = (spendingHistory) => {
   var aggregateExpenses = {};
+
   spendingHistory.forEach((expense) => {
     const { date, category, subcategory, amount } = expense;
     if (category in aggregateExpenses) {
