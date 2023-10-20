@@ -80,12 +80,13 @@ const MenuContainer = (props) => {
   const budget = props.data.budget ? props.data.budget : 0;
   const totalSpent = props.totalExpenses ? props.totalExpenses : 0;
 
-  const spendingBreakpoints = [ budget / 3, budget * 2 / 3, budget ];
+  const spendingBreakpoints = [budget / 3, (budget * 2) / 3, budget];
 
-  var logo = totalSpent <= spendingBreakpoints[0] 
-    ? logoGood 
-    : totalSpent <= spendingBreakpoints[1] 
-      ? logoNeutral 
+  var logo =
+    totalSpent <= spendingBreakpoints[0]
+      ? logoGood
+      : totalSpent <= spendingBreakpoints[1]
+      ? logoNeutral
       : logoEvil;
 
   const handleDrawer = () => {
@@ -94,10 +95,7 @@ const MenuContainer = (props) => {
 
   return (
     <Box sx={{ display: "flex", height: "100%" }}>
-      <AppBar
-        sx={{ backgroundColor: theme.palette.primary[1] }}
-        open={open}
-      >
+      <AppBar sx={{ backgroundColor: theme.palette.primary[1] }} open={open}>
         <Toolbar>
           <Grid container>
             <Grid
@@ -215,11 +213,11 @@ const MenuContainer = (props) => {
           <ListItem disablePadding>
             <ListItemButton
               onClick={() => navigate("/home")}
-              sx={{ 
+              sx={{
                 minHeight: "80px",
                 "&:hover": {
                   backgroundColor: theme.palette.primary.main,
-                }
+                },
               }}
             >
               <ListItemIcon sx={{ color: "#ffffff" }}>
@@ -231,11 +229,11 @@ const MenuContainer = (props) => {
           <ListItem disablePadding>
             <ListItemButton
               onClick={() => navigate("/insights")}
-              sx={{ 
+              sx={{
                 minHeight: "80px",
                 "&:hover": {
                   backgroundColor: theme.palette.primary.main,
-                }
+                },
               }}
             >
               <ListItemIcon sx={{ color: "#ffffff" }}>
@@ -247,11 +245,11 @@ const MenuContainer = (props) => {
           <ListItem disablePadding>
             <ListItemButton
               onClick={() => handleLogOut(navigate)}
-              sx={{ 
+              sx={{
                 minHeight: "80px",
                 "&:hover": {
                   backgroundColor: theme.palette.primary.main,
-                }
+                },
               }}
             >
               <ListItemIcon sx={{ color: "#ffffff" }}>

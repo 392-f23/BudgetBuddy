@@ -8,6 +8,7 @@ import {
   FormControl,
   InputLabel,
   Input,
+  Typography,
 } from "@mui/material";
 import SetupHeader from "../components/SetupHeader";
 import logo from "../assets/budget_buddy_cropped.png";
@@ -18,10 +19,69 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
   const theme = useTheme();
   const [income, setIncome] = useState(0);
   const [budget, setBudget] = useState(0);
+  const [rent, setRent] = useState(0);
+  const [food, setFood] = useState(0);
+  const [transportation, setTransportation] = useState(0);
+  const [validation, setValidation] = useState({
+    isIncomeValidated: null,
+    isBudgetValidated: null,
+    isRentValidated: null,
+    isFoodValidated: null,
+    isTransportationValidated: null,
+    isWithinBudget: null,
+  });
   const navigate = useNavigate();
 
+  const validateInputFields = () => {
+    const {
+      isIncomeValidated,
+      isBudgetValidated,
+      isRentValidated,
+      isFoodValidated,
+      isTransportationValidated,
+    } = validation;
+
+    if (!isIncomeValidated || isIncomeValidated === 0) {
+      setValidation({ ...validation, isIncomeValidated: false });
+      return false;
+    }
+
+    if (!isBudgetValidated || isBudgetValidated === 0) {
+      setValidation({ ...validation, isBudgetValidated: false });
+      return false;
+    }
+
+    if (!isRentValidated || isRentValidated === 0) {
+      setValidation({ ...validation, isRentValidated: false });
+      return false;
+    }
+
+    if (!isFoodValidated || isFoodValidated === 0) {
+      setValidation({ ...validation, isFoodValidated: false });
+      return false;
+    }
+
+    if (!isTransportationValidated || isTransportationValidated === 0) {
+      setValidation({ ...validation, isTransportationValidated: false });
+      return false;
+    }
+
+    if (rent + food + transportation > budget) {
+      setValidation({ ...validation, isWithinBudget: false });
+      return false;
+    }
+
+    return true;
+  };
+
   const handleSubmitOnboarding = async () => {
-    await submitOnboardingInformation(income, budget, auth.currentUser.uid);
+    await submitOnboardingInformation(
+      income,
+      budget,
+      rent,
+      food,
+      transportation
+    );
     setIsOnboardedState(true);
   };
 
@@ -31,8 +91,8 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
     localStorage.removeItem("name");
     localStorage.removeItem("photoUrl");
     localStorage.removeItem("uid");
-    navigate("/login")
-  }
+    navigate("/login");
+  };
 
   return (
     <Box>
@@ -50,23 +110,23 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
         }}
       >
         <Button
-              variant="contained"
-              onClick={handleGoBack}
-              sx={{
-                backgroundColor: theme.palette.primary[2],
-                color: theme.palette.text.primary,
-                border: `1px solid ${theme.palette.primary[5]}`,
-                borderRadius: "10px",
-                "&:hover": {
-                  backgroundColor: theme.palette.primary[3],
-                },
-              }}
-            >
-              Go Back
-            </Button>
+          variant="contained"
+          onClick={handleGoBack}
+          sx={{
+            backgroundColor: theme.palette.primary[2],
+            color: theme.palette.text.primary,
+            border: `1px solid ${theme.palette.primary[5]}`,
+            borderRadius: "10px",
+            "&:hover": {
+              backgroundColor: theme.palette.primary[3],
+            },
+          }}
+        >
+          Go Back
+        </Button>
         <Grid
           item
-          xs={6}
+          xs={10}
           sx={{
             display: "flex",
             justifyContent: "center",
@@ -74,13 +134,13 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
             width: "100%",
             maxWidth: "100%",
             pt: 4,
+            padding: "10px",
           }}
         >
           <Box
             sx={{
               backgroundColor: theme.palette.primary[2],
               width: "60%",
-              height: "250px",
               borderRadius: "15px",
               padding: "30px",
               display: "flex",
@@ -101,15 +161,52 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
                 startAdornment="$"
               />
             </FormControl>
-            <FormControl sx={{ width: "100%" }}>
+            <FormControl sx={{ width: "100%", marginTop: "20px" }}>
               <InputLabel htmlFor="monthly-budget">
-                Your Budget This Month:
+                Your Total Budget This Month:
               </InputLabel>
               <Input
                 id="monthly-budget"
                 defaultValue="0"
                 onChange={(event) =>
                   setBudget(parseInt(event.target.value, 10))
+                }
+                startAdornment="$"
+              />
+            </FormControl>
+            <Typography
+              variant={"h3"}
+              sx={{ textAlign: "center", marginTop: "10px" }}
+            >
+              How do you want to split up?
+            </Typography>
+            <FormControl sx={{ width: "100%", marginTop: "20px" }}>
+              <InputLabel htmlFor="monthly-rent">Rent:</InputLabel>
+              <Input
+                id="monthly-rent"
+                defaultValue="0"
+                onChange={(event) => setRent(parseInt(event.target.value, 10))}
+                startAdornment="$"
+              />
+            </FormControl>
+            <FormControl sx={{ width: "100%", marginTop: "20px" }}>
+              <InputLabel htmlFor="monthly-food">Food:</InputLabel>
+              <Input
+                id="monthly-food"
+                defaultValue="0"
+                onChange={(event) => setFood(parseInt(event.target.value, 10))}
+                startAdornment="$"
+              />
+            </FormControl>
+            <FormControl sx={{ width: "100%", marginTop: "20px" }}>
+              <InputLabel htmlFor="monthly-transportation">
+                Transportation:
+              </InputLabel>
+              <Input
+                id="monthly-transportation"
+                defaultValue="0"
+                onChange={(event) =>
+                  setTransportation(parseInt(event.target.value, 10))
                 }
                 startAdornment="$"
               />
@@ -121,6 +218,7 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
                 backgroundColor: theme.palette.primary[1],
                 border: `1px solid ${theme.palette.primary[5]}`,
                 borderRadius: "10px",
+                marginTop: "20px",
               }}
             >
               Let's Go!
@@ -145,6 +243,6 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
       </Grid>
     </Box>
   );
-}
+};
 
 export default OnboardingScreen;

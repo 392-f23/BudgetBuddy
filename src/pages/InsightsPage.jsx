@@ -1,69 +1,109 @@
 import MenuContainer from "../components/MenuContainer";
-import { BarChart } from '@mui/x-charts/BarChart';
+import { BarChart } from "@mui/x-charts/BarChart";
 import { Typography } from "@mui/material";
-import { readData, altReadData } from "../utility/query";
 import { dummyData } from "../assets/dummy_data";
 import { useState, useEffect } from "react";
-import { getExpensesForDate, getExpensesForMonth, getAggregateExpenses, AggData} from "../utility/aggregateData";
+import {
+  getExpensesForDate,
+  getExpensesForMonth,
+  getAggregateExpenses,
+  AggData,
+} from "../utility/aggregateData";
+import { getDoc, doc } from "firebase/firestore";
+import { db } from "../utility/firebase";
+import LoadingContainer from "../components/LoadingContainer";
 
 const InsightsPage = () => {
-  const spendingHistory = JSON.parse(localStorage.getItem('SpendingHistory'))
-  console.log(spendingHistory)
-  const { User, Income, Budget, Expenses} = dummyData;
-  const [totalExpenses, setTotalExpenses] = useState(0);
-  const [expensesState, setExpensesState] = useState(Expenses);
-  // turns number into comma-separated dollar amount
-  const income = Income.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  const budget = Budget.Monthly.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  //get the month
+  const [isLoading, setIsLoading] = useState(true);
+  const [budget, setBudget] = useState(0);
+  const [income, setIncome] = useState(0);
+  const [aggregateSeries, setAggregateSeries] = useState([]);
+  const [spendingPerDay, setSpendingPerDay] = useState(0);
+
   let date = new Date();
   let month = date.getMonth() + 1;
-  //number of days in the given month! 
-  let numberDays = new Date(2023, month, 0).getDate()
-  //budget per day if we assume budget is uniform via all days of month!
-  let dailyBudget = Budget.Monthly / numberDays
-  const spendingPerDay = (Income / numberDays).toFixed(2); 
-  //cur day of month as of right now! 
-  const curDay = date.getUTCDate(); 
-  //num days left in current month!
-  let numDaysLeft = numberDays - curDay 
-  //avg amount spending allowed for remaining income over rem days! 
-  const remainingIncome = (Income - totalExpenses)
-  //console.log("remainingIncome: ", remainingIncome)
-  const onTrackSpendingPerDay = (remainingIncome / numDaysLeft).toFixed(2); 
-  //console.log("onTrack: ", onTrackSpendingPerDay)
-  const dates = ["2023-10-01","2023-10-02","2023-10-03","2023-10-04"];
+  let numberDays = new Date(2023, month, 0).getDate();
+
+  const [onTrackSpendingPerDay, setOnTrackSpendingPerDay] = useState(0);
   const categories = ["Rent", "Food", "Transport"];
-  const aggregateSeries = categories.map(category => {
-    return ({
-      data: dates.map(date => {
-        console.log(spendingHistory)
-        let expensesForToday = getExpensesForDate(spendingHistory, date);
-        return category in getAggregateExpenses(expensesForToday) ? getAggregateExpenses(expensesForToday)[category].total : 0;
-      }),
-      label: category
-    })
-  })
+
+  const recentWeek = [...Array(7)].map((_, i) => {
+    const date = new Date();
+    date.setDate(date.getDate() - 7 + i);
+    return date.toISOString().split("T")[0];
+  });
+
+  useEffect(() => {
+    const init = async () => {
+      setIsLoading(true);
+      const uid = localStorage.getItem("uid");
+      const userDocRef = doc(db, "users", uid);
+      const docSnap = await getDoc(userDocRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        const { SpendingHistory: history, budget, income, expenses } = data;
+
+        setBudget(budget);
+        setIncome(income);
+
+        const curDay = date.getUTCDate();
+        const numDaysLeft = numberDays - curDay;
+
+        const totalExpense = Object.entries(expenses).reduce(
+          (sum, [_, value]) => sum + value["total"],
+          0
+        );
+
+        const remainingIncome = income - totalExpense;
+        const spendingPerDay = (remainingIncome / numDaysLeft).toFixed(2);
+        setSpendingPerDay(spendingPerDay);
+        setOnTrackSpendingPerDay(spendingPerDay);
+
+        const tempSeries = categories.map((category) => {
+          return {
+            data: recentWeek.map((date) => {
+              const expensesForToday = getExpensesForDate(history, date);
+              return expensesForToday
+                .filter((expense) => expense.category === category)
+                .reduce((sum, expense) => sum + expense["amount"], 0);
+            }),
+            label: category,
+          };
+        });
+
+        setAggregateSeries(tempSeries);
+      }
+
+      setIsLoading(false);
+    };
+
+    init();
+  }, []);
+
   return (
-    <MenuContainer data={dummyData}>
-      <Typography variant="h1" sx={{ pt: 4 }}>
-        Spending Insights
-      </Typography>
-      <BarChart series = {aggregateSeries} 
-                xAxis={[{ scaleType: 'band', data: dates }]}/>
-      <Typography variant="h2" sx={{ pb: 2 }}>
-        Spending Recommendations
-      </Typography>
-      <Typography variant="body1" sx={{ lineHeight: "2.5", pb: 4 }}>
-        Based off of your monthly income of ${income} and your budget of ${budget}, we recommend 
-        spending about ${spendingPerDay} per day.
-      </Typography>
-      <Typography variant="body1" sx={{ lineHeight: "2.5", pb: 4 }}>
-        Based off of your current spending, you can spend about ${onTrackSpendingPerDay} per 
-        day to stay on track.
-      </Typography>
-      
-    </MenuContainer>
+    <LoadingContainer isLoading={isLoading}>
+      <MenuContainer data={dummyData}>
+        <Typography variant="h1" sx={{ pt: 4 }}>
+          Spending Insights
+        </Typography>
+        <BarChart
+          series={aggregateSeries}
+          xAxis={[{ scaleType: "band", data: recentWeek }]}
+        />
+        <Typography variant="h2" sx={{ pb: 2 }}>
+          Spending Recommendations
+        </Typography>
+        <Typography variant="body1" sx={{ lineHeight: "2.5", pb: 4 }}>
+          Based off of your monthly income of ${income} and your budget of $
+          {budget}, we recommend spending about ${spendingPerDay} per day.
+        </Typography>
+        <Typography variant="body1" sx={{ lineHeight: "2.5", pb: 4 }}>
+          Based off of your current spending, you can spend about $
+          {onTrackSpendingPerDay} per day to stay on track.
+        </Typography>
+      </MenuContainer>
+    </LoadingContainer>
   );
 };
 

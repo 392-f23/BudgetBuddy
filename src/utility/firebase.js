@@ -110,24 +110,10 @@ const signUpWithGoogle = async (navigate) => {
           photoURL: user.photoURL,
           onboarded: false,
           expenses: {
-            "Rent":
-            {"total":0,
-              "subExpense":
-                {"BaseRent":0,
-                 "Utilities":0}
-            },
-          "Food":
-            {"total":0,
-              "subExpense":
-                {"Groceries":0,
-                "Dine-Out":0}},
-          "Transport":
-            {"total":0,
-             "subExpense":
-              {"Uber":0,
-                "CTA":0}}
-          }
-
+            Rent: { total: 0, subExpense: { BaseRent: 0, Utilities: 0 } },
+            Food: { total: 0, subExpense: { Groceries: 0, "Dine-Out": 0 } },
+            Transport: { total: 0, subExpense: { Uber: 0, CTA: 0 } },
+          },
         };
 
         await setDoc(userDocRef, userData, { merge: true });
@@ -170,7 +156,7 @@ const isOnboarded = async () => {
 
     if (onboarded === undefined) {
       return false;
-    } 
+    }
 
     return onboarded;
   } else {
@@ -178,12 +164,23 @@ const isOnboarded = async () => {
   }
 };
 
-const submitOnboardingInformation = async (income, budget) => {
+const submitOnboardingInformation = async (
+  income,
+  budget,
+  rent,
+  food,
+  transportation
+) => {
   const id = localStorage.getItem("uid");
   const userDocRef = doc(db, "users", id);
   const userData = {
     income: income,
     budget: budget,
+    budgetByCategory: {
+      Rent: rent,
+      Food: food,
+      Transport: transportation,
+    },
     SpendingHistory: [],
   };
 
@@ -196,10 +193,44 @@ const submitOnboardingInformation = async (income, budget) => {
 export const addExpense = async (SpendingHistory) => {
   const id = localStorage.getItem("uid");
   const userDocRef = doc(db, "users", id);
-  await updateDoc(userDocRef, {
-    SpendingHistory: SpendingHistory,
-  });
-}
+
+  const docSnap = await getDoc(userDocRef);
+
+  if (docSnap.exists()) {
+    const data = docSnap.data();
+    const { expenses } = data;
+    const { category, subcategory, amount } =
+      SpendingHistory[SpendingHistory.length - 1];
+
+    if (category in expenses) {
+      const { subExpense, total } = expenses[category];
+
+      if (subcategory in subExpense) {
+        const value = subExpense[subcategory] + amount;
+        const newSubExpense = {
+          ...subExpense,
+          [subcategory]: value,
+        };
+
+        const newExpense = {
+          ...expenses,
+          [category]: {
+            subExpense: newSubExpense,
+            total: total + value,
+          },
+        };
+
+        await updateDoc(userDocRef, {
+          expenses: newExpense,
+        });
+      }
+    }
+
+    await updateDoc(userDocRef, {
+      SpendingHistory: SpendingHistory,
+    });
+  }
+};
 
 export async function changeIncome(income) {
   const id = localStorage.getItem("uid");
@@ -247,10 +278,9 @@ export async function updateData(obj) {
   const id = localStorage.getItem("uid");
   const userDocRef = doc(db, "users", id);
   await updateDoc(userDocRef, {
-    expenses: obj
+    expenses: obj,
   });
 }
-
 
 export {
   db,
