@@ -52,7 +52,8 @@ const InsightsPage = () => {
 
         const remainingIncome = budget - totalExpense;
         const spendingPerDay = (remainingIncome / numDaysLeft).toFixed(2);
-        setSpendingPerDay(spendingPerDay);
+        const perDay = (budget / numberDays).toFixed(2);
+        setSpendingPerDay(perDay);
         setOnTrackSpendingPerDay(spendingPerDay);
 
         const tempSeries = categories.map((category) => {
