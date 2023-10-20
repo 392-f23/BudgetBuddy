@@ -39,6 +39,10 @@ function AddExpenseModal({ open, onClose, budgetCategory, expenses }) {
   };
 
   const validateField = () => {
+    if (expenseCategory === "" || expenseAmount === 0) {
+      alert("Please fill in all fields");
+      return false;
+    }
     const category = categoryMapper[expenseCategory];
     const expense = expenses[category];
     const budget = budgetCategory[category];
