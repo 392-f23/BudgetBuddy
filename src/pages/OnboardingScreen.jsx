@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Box,
@@ -22,67 +22,37 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
   const [rent, setRent] = useState(0);
   const [food, setFood] = useState(0);
   const [transportation, setTransportation] = useState(0);
-  const [validation, setValidation] = useState({
-    isIncomeValidated: null,
-    isBudgetValidated: null,
-    isRentValidated: null,
-    isFoodValidated: null,
-    isTransportationValidated: null,
-    isWithinBudget: null,
-  });
+
   const navigate = useNavigate();
 
-  const validateInputFields = () => {
-    const {
-      isIncomeValidated,
-      isBudgetValidated,
-      isRentValidated,
-      isFoodValidated,
-      isTransportationValidated,
-    } = validation;
+  const [validated, setValidated] = useState(false);
 
-    if (!isIncomeValidated || isIncomeValidated === 0) {
-      setValidation({ ...validation, isIncomeValidated: false });
-      return false;
+  useEffect(() => {
+    if (income > 0 && budget > 0 && rent > 0 && food > 0 && transportation > 0 && budget >= (rent + food + transportation) && income >= budget){
+      setValidated(true);
+      console.log("validated")
     }
-
-    if (!isBudgetValidated || isBudgetValidated === 0) {
-      setValidation({ ...validation, isBudgetValidated: false });
-      return false;
+    else {
+      setValidated(false);
     }
-
-    if (!isRentValidated || isRentValidated === 0) {
-      setValidation({ ...validation, isRentValidated: false });
-      return false;
-    }
-
-    if (!isFoodValidated || isFoodValidated === 0) {
-      setValidation({ ...validation, isFoodValidated: false });
-      return false;
-    }
-
-    if (!isTransportationValidated || isTransportationValidated === 0) {
-      setValidation({ ...validation, isTransportationValidated: false });
-      return false;
-    }
-
-    if (rent + food + transportation > budget) {
-      setValidation({ ...validation, isWithinBudget: false });
-      return false;
-    }
-
-    return true;
-  };
+  }, [income, budget, rent, food, transportation]);
 
   const handleSubmitOnboarding = async () => {
-    await submitOnboardingInformation(
-      income,
-      budget,
-      rent,
-      food,
-      transportation
-    );
-    setIsOnboardedState(true);
+    if (validated == true){
+      await submitOnboardingInformation(
+        income,
+        budget,
+        rent,
+        food,
+        transportation
+      );
+      setIsOnboardedState(true);
+    }
+    else {
+      alert("Please fill in all fields and ensure that your budget is greater than the sum of your expenses.")
+      console.log(income, budget, rent, food, transportation)
+      console.log(validated)
+    }
   };
 
   const handleGoBack = () => {
@@ -214,6 +184,7 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
             <Button
               variant="contained"
               onClick={() => handleSubmitOnboarding()}
+              
               sx={{
                 backgroundColor: theme.palette.primary[1],
                 border: `1px solid ${theme.palette.primary[5]}`,
