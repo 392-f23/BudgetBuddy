@@ -190,7 +190,7 @@ const submitOnboardingInformation = async (
   });
 };
 
-export const addExpense = async (SpendingHistory) => {
+export const addExpense = async (newSpending) => {
   const id = localStorage.getItem("uid");
   const userDocRef = doc(db, "users", id);
 
@@ -198,9 +198,8 @@ export const addExpense = async (SpendingHistory) => {
 
   if (docSnap.exists()) {
     const data = docSnap.data();
-    const { expenses } = data;
-    const { category, subcategory, amount } =
-      SpendingHistory[SpendingHistory.length - 1];
+    const { expenses, SpendingHistory } = data;
+    const { category, subcategory, amount } = newSpending;
 
     if (category in expenses) {
       const { subExpense, total } = expenses[category];
@@ -216,7 +215,7 @@ export const addExpense = async (SpendingHistory) => {
           ...expenses,
           [category]: {
             subExpense: newSubExpense,
-            total: total + value,
+            total: total + amount,
           },
         };
 
@@ -225,6 +224,8 @@ export const addExpense = async (SpendingHistory) => {
         });
       }
     }
+
+    SpendingHistory.push(newSpending);
 
     await updateDoc(userDocRef, {
       SpendingHistory: SpendingHistory,

@@ -17,12 +17,18 @@ import { useState } from "react";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import dayjs from "dayjs";
 import { addExpense } from "../utility/firebase";
+import { categoryMapper } from "../constants";
+import { Alert } from "@mui/material";
 
-function AddExpenseModal({ open, onClose }) {
+function AddExpenseModal({ open, onClose, budgetCategory, expenses }) {
   const theme = useTheme();
   const [expenseCategory, setExpenseCategory] = useState("");
   const [expenseDate, setExpenseDate] = useState(dayjs());
   const [expenseAmount, setExpenseAmount] = useState(0);
+  const [showAlert, setShowAlert] = useState(false);
+  const [category, setCategory] = useState("");
+  const [budget, setBudget] = useState("");
+  const [diff, setDiff] = useState("");
 
   const handleExpenseCategoryChange = (event) => {
     setExpenseCategory(event.target.value);
@@ -32,18 +38,36 @@ function AddExpenseModal({ open, onClose }) {
     setExpenseAmount(parseInt(event.target.value, 10));
   };
 
+  const validateField = () => {
+    const category = categoryMapper[expenseCategory];
+    const expense = expenses[category];
+    const budget = budgetCategory[category];
+    setCategory(category);
+    setBudget(budget);
+
+    const { total } = expense;
+
+    if (total + expenseAmount > budget) {
+      const diff = budget - total;
+      setDiff(diff);
+      setShowAlert(true);
+      return false;
+    }
+
+    return true;
+  };
+
   const handleExpenseUpdate = async () => {
-    const SpendingHistory = JSON.parse(localStorage.getItem("SpendingHistory"));
+    if (validateField()) {
+      await addExpense({
+        date: expenseDate.toDate().toISOString().split("T")[0],
+        category: catMapping[expenseCategory],
+        subcategory: expenseCategory,
+        amount: expenseAmount,
+      });
 
-    SpendingHistory.push({
-      date: expenseDate.toDate().toISOString().split("T")[0],
-      category: catMapping[expenseCategory],
-      subcategory: expenseCategory,
-      amount: expenseAmount,
-    });
-
-    await addExpense(SpendingHistory);
-    onClose();
+      onClose();
+    }
   };
 
   const catMapping = {
@@ -150,6 +174,23 @@ function AddExpenseModal({ open, onClose }) {
         >
           Submit Expense
         </Button>
+        {showAlert && (
+          <Alert
+            severity="error"
+            action={
+              <Button
+                color="inherit"
+                size="small"
+                onClick={() => setShowAlert(false)}
+              >
+                Close
+              </Button>
+            }
+            sx={{ marginTop: "20px" }}
+          >
+            {`Current budget of ${category} is ${budget}. You can only use $${diff}. Please do not exceed your budget!`}
+          </Alert>
+        )}
       </Box>
     </Modal>
   );
