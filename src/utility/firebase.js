@@ -283,6 +283,16 @@ export async function updateData(obj) {
   });
 }
 
+export async function changeBudgetByCategory(category, budget) {
+  const id = localStorage.getItem("uid");
+  const userDocRef = doc(db, "users", id);
+  await updateDoc(userDocRef, {
+    budgetByCategory: {
+      [category]: budget,
+    },
+  });
+}
+
 export {
   db,
   auth,
