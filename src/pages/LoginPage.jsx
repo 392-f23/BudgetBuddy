@@ -51,6 +51,7 @@ function LoginPage() {
         </Grid>
         <Grid
           item
+          id="logo-grid"
           xs={6}
           sx={{
             display: "flex",

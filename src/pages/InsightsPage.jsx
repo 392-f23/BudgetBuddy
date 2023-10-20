@@ -1,6 +1,6 @@
 import MenuContainer from "../components/MenuContainer";
 import { BarChart } from "@mui/x-charts/BarChart";
-import { Typography } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import { dummyData } from "../assets/dummy_data";
 import { useState, useEffect } from "react";
 import { getExpensesForDate } from "../utility/aggregateData";
@@ -26,6 +26,16 @@ const InsightsPage = () => {
     const date = new Date();
     date.setDate(date.getDate() - 6 + i);
     return date.toISOString().split("T")[0];
+  });
+
+  const recentWeekShorter = [...Array(7)].map((_, i) => {
+    const date = new Date();
+    date.setDate(date.getDate() - 6 + i);
+    const tempDate = date.toISOString().split("T")[0];
+    const tempDateArr = tempDate.split("-");
+    const [year, month, day] = tempDateArr;
+
+    return `${month}-${day}`;
   });
 
   useEffect(() => {
@@ -80,24 +90,26 @@ const InsightsPage = () => {
   return (
     <LoadingContainer isLoading={isLoading}>
       <MenuContainer data={dummyData}>
-        <Typography variant="h1" sx={{ pt: 4 }}>
-          Spending Insights
-        </Typography>
-        <BarChart
-          series={aggregateSeries}
-          xAxis={[{ scaleType: "band", data: recentWeek }]}
-        />
-        <Typography variant="h2" sx={{ pb: 2 }}>
-          Spending Recommendations
-        </Typography>
-        <Typography variant="body1" sx={{ lineHeight: "2.5", pb: 4 }}>
-          Based off of your monthly income of ${income} and your budget of $
-          {budget}, we recommend spending about ${spendingPerDay} per day.
-        </Typography>
-        <Typography variant="body1" sx={{ lineHeight: "2.5", pb: 4 }}>
-          Based off of your current spending, you can spend about $
-          {onTrackSpendingPerDay} per day to stay on track.
-        </Typography>
+        <Box sx={{ height: "100%", padding: "32px" }}>
+          <Typography variant="h1" sx={{ textAlign: "center" }}>
+            Spending Insights
+          </Typography>
+          <BarChart
+            series={aggregateSeries}
+            xAxis={[{ scaleType: "band", data: recentWeekShorter }]}
+          />
+          <Typography variant="h2" sx={{ pb: 2 }}>
+            Spending Recommendations
+          </Typography>
+          <Typography variant="body1" sx={{ lineHeight: "2.5", pb: 4 }}>
+            Based off of your monthly income of ${income} and your budget of $
+            {budget}, we recommend spending about ${spendingPerDay} per day.
+          </Typography>
+          <Typography variant="body1" sx={{ lineHeight: "2.5", pb: 4 }}>
+            Based off of your current spending, you can spend about $
+            {onTrackSpendingPerDay} per day to stay on track.
+          </Typography>
+        </Box>
       </MenuContainer>
     </LoadingContainer>
   );

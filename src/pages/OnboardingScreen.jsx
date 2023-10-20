@@ -66,7 +66,7 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
     localStorage.removeItem("name");
     localStorage.removeItem("photoUrl");
     localStorage.removeItem("uid");
-    navigate("/login");
+    navigate(0);
   };
 
   return (
@@ -75,8 +75,8 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
       <Grid
         container
         sx={{
-          height: "80vh",
           width: "100%",
+          // height: "80vh",
           background: `linear-gradient(to top, ${theme.palette.primary[2]} 0%, ${theme.palette.primary[1]} 100%)`,
           display: "flex",
           justifyContent: "flex-start",
@@ -105,7 +105,8 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
           sx={{
             display: "flex",
             justifyContent: "center",
-            alignItems: "flex-start",
+            // alignItems: "flex-start",
+            alignItems: "center",
             width: "100%",
             maxWidth: "100%",
             pt: 4,
@@ -200,8 +201,9 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
             </Button>
           </Box>
         </Grid>
-        <Grid
+        {/* <Grid
           item
+          id="logo-grid"
           xs={6}
           sx={{
             display: "flex",
@@ -214,7 +216,7 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
           }}
         >
           <Box component="img" src={logo} />
-        </Grid>
+        </Grid> */}
       </Grid>
     </Box>
   );

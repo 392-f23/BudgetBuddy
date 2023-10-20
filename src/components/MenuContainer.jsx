@@ -54,7 +54,7 @@ const AppBar = styled(MuiAppBar, {
 const Main = styled("div", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
     flexGrow: 1,
-    padding: "10% 5%",
+    padding: "10% 0",
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,

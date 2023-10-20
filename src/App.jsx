@@ -84,12 +84,16 @@ const App = () => {
               <Route
                 path="/onboarding"
                 element={
-                  onboardedState ? (
-                    <Navigate to="/home" />
+                  isSignedIn ? (
+                    onboardedState ? (
+                      <Navigate to="/home" />
+                    ) : (
+                      <OnboardingScreen
+                        setIsOnboardedState={setIsOnboardedState}
+                      />
+                    )
                   ) : (
-                    <OnboardingScreen
-                      setIsOnboardedState={setIsOnboardedState}
-                    />
+                    <Navigate to="/login" />
                   )
                 }
               />
