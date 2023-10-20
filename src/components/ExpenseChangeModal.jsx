@@ -9,6 +9,7 @@ import {
   Typography,
   useTheme,
   InputAdornment,
+  Alert,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { changeBudgetByCategory } from "../utility/firebase";
@@ -19,14 +20,38 @@ const ExpenseChangeModal = ({
   category,
   currentBudget,
   setIsBudgetUpdated,
+  expenses,
 }) => {
   const theme = useTheme();
   const [newBudget, setNewBudget] = useState(0);
+  const [showAlert, setShowAlert] = useState(false);
+  const [currSum, setCurrSum] = useState(0);
+
+  const validateField = () => {
+    const expenseByCategory = expenses[category];
+    const { subExpense } = expenseByCategory;
+
+    const currSum = Object.entries(subExpense).reduce(
+      (sum, [_, value]) => sum + value,
+      0
+    );
+
+    setCurrSum(currSum);
+
+    if (newBudget < currSum) {
+      setShowAlert(true);
+      return false;
+    }
+
+    return true;
+  };
 
   const handleBudgetUpdate = async () => {
-    await changeBudgetByCategory(category, newBudget);
-    setIsBudgetUpdated(true);
-    onClose();
+    if (validateField()) {
+      await changeBudgetByCategory(category, newBudget);
+      setIsBudgetUpdated(true);
+      onClose();
+    }
   };
 
   return (
@@ -122,6 +147,23 @@ const ExpenseChangeModal = ({
         >
           Update Budget
         </Button>
+        {showAlert && (
+          <Alert
+            severity="error"
+            action={
+              <Button
+                color="inherit"
+                size="small"
+                onClick={() => setShowAlert(false)}
+              >
+                Close
+              </Button>
+            }
+            sx={{ marginTop: "20px" }}
+          >
+            {`You already spent ${currSum}. You cannot reduce your budget below ${currSum}`}
+          </Alert>
+        )}
       </Box>
     </Modal>
   );

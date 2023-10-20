@@ -55,7 +55,7 @@ const InsightsPage = () => {
           0
         );
 
-        const remainingIncome = income - totalExpense;
+        const remainingIncome = budget - totalExpense;
         const spendingPerDay = (remainingIncome / numDaysLeft).toFixed(2);
         setSpendingPerDay(spendingPerDay);
         setOnTrackSpendingPerDay(spendingPerDay);
