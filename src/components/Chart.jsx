@@ -9,7 +9,12 @@ import {
   InputAdornment,
 } from "@mui/material";
 
-const Chart = ({ budget, setMonthlyBudget, totalExpenses, handleBudgetChange }) => {
+const Chart = ({
+  budget,
+  setMonthlyBudget,
+  totalExpenses,
+  handleBudgetChange,
+}) => {
   const theme = useTheme();
 
   const StyledText = styled("text")(({ theme }) => ({
@@ -78,9 +83,7 @@ const Chart = ({ budget, setMonthlyBudget, totalExpenses, handleBudgetChange }) 
           "--ChartsLegend-rootOffsetX": "20px",
           "--ChartsLegend-rootOffsetY": "0px",
         }}
-      >
-        {/* <PieCenterLabel>Your Budget</PieCenterLabel> */}
-      </PieChart>
+      ></PieChart>
     </Box>
   );
 };

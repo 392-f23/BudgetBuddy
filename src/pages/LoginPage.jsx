@@ -1,57 +1,17 @@
-import { useEffect, useState } from "react";
-import { auth, provider } from "../utility/firebase";
-import {
-  AppBar,
-  Box,
-  Button,
-  Grid,
-  Toolbar,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Box, Button, Grid, useTheme } from "@mui/material";
 import logo from "../assets/budget_buddy_cropped.png";
 import GoogleIcon from "@mui/icons-material/Google";
 import SetupHeader from "../components/SetupHeader";
-import readData from "../utility/query";
-import { NavLink, useNavigate } from "react-router-dom";
-import {
-  useAuthState,
-  handleLogin,
-  signUpWithGoogle,
-} from "../utility/firebase";
-import { signInWithPopup } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { signUpWithGoogle } from "../utility/firebase";
 
 function LoginPage() {
-  //const [user] = useAuthState();
-
-  useEffect(() => {
-    const read = async () => {
-      await readData("users");
-    };
-    read();
-  }, []);
-  //SETUP NAVIGATE HERE
   const navigate = useNavigate();
-  /*
-  const handleLogin = () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const uid = result["user"]["uid"];
-        // Redirect to home page upon successful sign-in
-        navigate("/home");
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };*/
-
-  //might need to interact with DB here!
-
   const theme = useTheme();
 
   return (
     <>
-      <SetupHeader text={"Sign in below"}/>
+      <SetupHeader text={"Sign in below"} />
       <Grid
         container
         sx={{

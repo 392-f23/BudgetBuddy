@@ -28,17 +28,23 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
   const [validated, setValidated] = useState(false);
 
   useEffect(() => {
-    if (income > 0 && budget > 0 && rent > 0 && food > 0 && transportation > 0 && budget >= (rent + food + transportation) && income >= budget){
+    if (
+      income > 0 &&
+      budget > 0 &&
+      rent > 0 &&
+      food > 0 &&
+      transportation > 0 &&
+      budget >= rent + food + transportation &&
+      income >= budget
+    ) {
       setValidated(true);
-      console.log("validated")
-    }
-    else {
+    } else {
       setValidated(false);
     }
   }, [income, budget, rent, food, transportation]);
 
   const handleSubmitOnboarding = async () => {
-    if (validated == true){
+    if (validated == true) {
       await submitOnboardingInformation(
         income,
         budget,
@@ -47,11 +53,10 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
         transportation
       );
       setIsOnboardedState(true);
-    }
-    else {
-      alert("Please fill in all fields and ensure that your budget is greater than the sum of your expenses.")
-      console.log(income, budget, rent, food, transportation)
-      console.log(validated)
+    } else {
+      alert(
+        "Please fill in all fields and ensure that your budget is greater than the sum of your expenses."
+      );
     }
   };
 
@@ -184,7 +189,6 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
             <Button
               variant="contained"
               onClick={() => handleSubmitOnboarding()}
-              
               sx={{
                 backgroundColor: theme.palette.primary[1],
                 border: `1px solid ${theme.palette.primary[5]}`,

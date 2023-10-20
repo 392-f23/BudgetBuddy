@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Grid, TextField, Typography, InputAdornment } from "@mui/material";
-import { getIncome, updateData, changeBudget } from "../utility/firebase";
+import { updateData, changeBudget } from "../utility/firebase";
 
 const Expense = ({
   expense,

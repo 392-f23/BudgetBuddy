@@ -249,32 +249,6 @@ export async function changeBudget(budget) {
   });
 }
 
-export async function getIncome() {
-  const docRef = doc(db, "users", "income");
-  const docSnap = await getDoc(docRef);
-
-  if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
-    return docSnap.data();
-  } else {
-    // docSnap.data() will be undefined in this case
-    console.log("No such document!");
-  }
-}
-
-export async function getBudget() {
-  const docRef = doc(db, "users", "budget");
-  const docSnap = await getDoc(docRef);
-
-  if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
-    return docSnap.data();
-  } else {
-    // docSnap.data() will be undefined in this case
-    console.log("No such document!");
-  }
-}
-
 export async function updateData(obj) {
   const id = localStorage.getItem("uid");
   const userDocRef = doc(db, "users", id);

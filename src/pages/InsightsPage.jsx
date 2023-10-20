@@ -3,12 +3,7 @@ import { BarChart } from "@mui/x-charts/BarChart";
 import { Typography } from "@mui/material";
 import { dummyData } from "../assets/dummy_data";
 import { useState, useEffect } from "react";
-import {
-  getExpensesForDate,
-  getExpensesForMonth,
-  getAggregateExpenses,
-  AggData,
-} from "../utility/aggregateData";
+import { getExpensesForDate } from "../utility/aggregateData";
 import { getDoc, doc } from "firebase/firestore";
 import { db } from "../utility/firebase";
 import LoadingContainer from "../components/LoadingContainer";
@@ -57,7 +52,8 @@ const InsightsPage = () => {
 
         const remainingIncome = budget - totalExpense;
         const spendingPerDay = (remainingIncome / numDaysLeft).toFixed(2);
-        setSpendingPerDay(spendingPerDay);
+        const perDay = (budget / numberDays).toFixed(2);
+        setSpendingPerDay(perDay);
         setOnTrackSpendingPerDay(spendingPerDay);
 
         const tempSeries = categories.map((category) => {
