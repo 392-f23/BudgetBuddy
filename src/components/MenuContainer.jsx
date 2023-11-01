@@ -54,7 +54,7 @@ const AppBar = styled(MuiAppBar, {
 const Main = styled("div", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
     flexGrow: 1,
-    padding: "10% 5%",
+    padding: "10% 0",
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -80,12 +80,13 @@ const MenuContainer = (props) => {
   const budget = props.data.budget ? props.data.budget : 0;
   const totalSpent = props.totalExpenses ? props.totalExpenses : 0;
 
-  const spendingBreakpoints = [ budget / 3, budget * 2 / 3, budget ];
+  const spendingBreakpoints = [budget / 3, (budget * 2) / 3, budget];
 
-  var logo = totalSpent <= spendingBreakpoints[0] 
-    ? logoGood 
-    : totalSpent <= spendingBreakpoints[1] 
-      ? logoNeutral 
+  var logo =
+    totalSpent <= spendingBreakpoints[0]
+      ? logoGood
+      : totalSpent <= spendingBreakpoints[1]
+      ? logoNeutral
       : logoEvil;
 
   const handleDrawer = () => {
@@ -94,10 +95,7 @@ const MenuContainer = (props) => {
 
   return (
     <Box sx={{ display: "flex", height: "100%" }}>
-      <AppBar
-        sx={{ backgroundColor: theme.palette.primary[1] }}
-        open={open}
-      >
+      <AppBar sx={{ backgroundColor: theme.palette.primary[1] }} open={open}>
         <Toolbar>
           <Grid container>
             <Grid
@@ -127,7 +125,7 @@ const MenuContainer = (props) => {
             </Grid>
             <Grid
               item
-              xs={8}
+              xs={7}
               sx={{
                 display: "flex",
                 justifyContent: "center",
@@ -150,7 +148,7 @@ const MenuContainer = (props) => {
                 </Typography>
                 <Typography
                   variant="h6"
-                  style={{ color: theme.palette.text[1] }}
+                  style={{ color: theme.palette.text[1], textAlign: "center" }}
                 >
                   {`Welcome back, ${userName}!`}
                 </Typography>
@@ -158,7 +156,7 @@ const MenuContainer = (props) => {
             </Grid>
             <Grid
               item
-              xs={2}
+              xs={3}
               sx={{
                 display: "flex",
                 justifyContent: "flex-end",
@@ -215,11 +213,11 @@ const MenuContainer = (props) => {
           <ListItem disablePadding>
             <ListItemButton
               onClick={() => navigate("/home")}
-              sx={{ 
+              sx={{
                 minHeight: "80px",
                 "&:hover": {
                   backgroundColor: theme.palette.primary.main,
-                }
+                },
               }}
             >
               <ListItemIcon sx={{ color: "#ffffff" }}>
@@ -231,11 +229,11 @@ const MenuContainer = (props) => {
           <ListItem disablePadding>
             <ListItemButton
               onClick={() => navigate("/insights")}
-              sx={{ 
+              sx={{
                 minHeight: "80px",
                 "&:hover": {
                   backgroundColor: theme.palette.primary.main,
-                }
+                },
               }}
             >
               <ListItemIcon sx={{ color: "#ffffff" }}>
@@ -247,11 +245,11 @@ const MenuContainer = (props) => {
           <ListItem disablePadding>
             <ListItemButton
               onClick={() => handleLogOut(navigate)}
-              sx={{ 
+              sx={{
                 minHeight: "80px",
                 "&:hover": {
                   backgroundColor: theme.palette.primary.main,
-                }
+                },
               }}
             >
               <ListItemIcon sx={{ color: "#ffffff" }}>

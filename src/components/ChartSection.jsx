@@ -19,7 +19,7 @@ const ChartSection = ({ income, budget, setMonthlyBudget, totalExpenses }) => {
       setCurrentIncome(income);
       setCurrentBudget(budget);
       setIsLoading(false);
-    }
+    };
 
     fetchData();
   }, [refetch]);
@@ -33,7 +33,7 @@ const ChartSection = ({ income, budget, setMonthlyBudget, totalExpenses }) => {
       setRefetch(!refetch);
       setIsLoading(false);
     }
-  }
+  };
 
   const handleBudgetChange = async (event) => {
     const { key } = event;
@@ -44,7 +44,7 @@ const ChartSection = ({ income, budget, setMonthlyBudget, totalExpenses }) => {
       setRefetch(!refetch);
       setIsLoading(false);
     }
-  }
+  };
 
   return (
     <LoadingContainer isLoading={isLoading}>
@@ -58,7 +58,11 @@ const ChartSection = ({ income, budget, setMonthlyBudget, totalExpenses }) => {
         }}
       >
         <Box
-          sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
           <Chart
             budget={budget}
@@ -75,6 +79,7 @@ const ChartSection = ({ income, budget, setMonthlyBudget, totalExpenses }) => {
               justifyContent: "center",
               alignItems: "center",
               marginRight: "20px",
+              pl: 2,
             }}
           >
             Your monthly income:
@@ -84,7 +89,9 @@ const ChartSection = ({ income, budget, setMonthlyBudget, totalExpenses }) => {
             onKeyDown={(event) => handleIncomeChange(event)}
             onChange={(event) => setCurrentIncome(event.target.value)}
             InputProps={{
-              startAdornment: <InputAdornment position="start">$</InputAdornment>,
+              startAdornment: (
+                <InputAdornment position="start">$</InputAdornment>
+              ),
             }}
             sx={{ pr: 3 }}
           ></TextField>

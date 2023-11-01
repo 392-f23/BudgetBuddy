@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Grid, TextField, Typography, InputAdornment } from "@mui/material";
-import { getIncome, updateData, changeBudget} from '../utility/firebase'
+import { updateData, changeBudget } from "../utility/firebase";
 
 const Expense = ({
   expense,
@@ -17,7 +17,7 @@ const Expense = ({
 
   const handleSideChanges = async (event) => {
     const { subExpense } = expenses[expenseKey];
-    console.log(subExpense)
+
     const tempSubExpense = {
       ...subExpense,
       [key]: parseInt(event.target.value, 10),
@@ -32,9 +32,9 @@ const Expense = ({
       ...expenses,
       [expenseKey]: { total: total, subExpense: tempSubExpense },
     };
-    console.log(JSON.stringify(temp))
-    await updateData(temp)
-    
+
+    await updateData(temp);
+
     handleExpensesStateChange(temp);
   };
 
@@ -70,9 +70,7 @@ const Expense = ({
           alignItems: "center",
         }}
       >
-        <Typography sx={{ pr: 3 }}>
-          ${value}
-        </Typography>
+        <Typography sx={{ pr: 3 }}>${value}</Typography>
       </Grid>
     </Grid>
   );

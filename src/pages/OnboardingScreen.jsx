@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Box,
@@ -8,6 +8,7 @@ import {
   FormControl,
   InputLabel,
   Input,
+  Typography,
 } from "@mui/material";
 import SetupHeader from "../components/SetupHeader";
 import logo from "../assets/budget_buddy_cropped.png";
@@ -18,12 +19,45 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
   const theme = useTheme();
   const [income, setIncome] = useState(0);
   const [budget, setBudget] = useState(0);
+  const [rent, setRent] = useState(0);
+  const [food, setFood] = useState(0);
+  const [transportation, setTransportation] = useState(0);
+
   const navigate = useNavigate();
 
+  const [validated, setValidated] = useState(false);
+
+  useEffect(() => {
+    if (
+      income > 0 &&
+      budget > 0 &&
+      rent > 0 &&
+      food > 0 &&
+      transportation > 0 &&
+      budget >= rent + food + transportation &&
+      income >= budget
+    ) {
+      setValidated(true);
+    } else {
+      setValidated(false);
+    }
+  }, [income, budget, rent, food, transportation]);
+
   const handleSubmitOnboarding = async () => {
-    console.log(`auth uid: ${auth.currentUser.uid}`); 
-    await submitOnboardingInformation(income, budget, auth.currentUser.uid);
-    setIsOnboardedState(true);
+    if (validated == true) {
+      await submitOnboardingInformation(
+        income,
+        budget,
+        rent,
+        food,
+        transportation
+      );
+      setIsOnboardedState(true);
+    } else {
+      alert(
+        "Please fill in all fields and ensure that your budget is greater than the sum of your expenses."
+      );
+    }
   };
 
   const handleGoBack = () => {
@@ -32,8 +66,8 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
     localStorage.removeItem("name");
     localStorage.removeItem("photoUrl");
     localStorage.removeItem("uid");
-    navigate("/login")
-  }
+    navigate(0);
+  };
 
   return (
     <Box>
@@ -41,8 +75,8 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
       <Grid
         container
         sx={{
-          height: "80vh",
           width: "100%",
+          // height: "80vh",
           background: `linear-gradient(to top, ${theme.palette.primary[2]} 0%, ${theme.palette.primary[1]} 100%)`,
           display: "flex",
           justifyContent: "flex-start",
@@ -51,37 +85,38 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
         }}
       >
         <Button
-              variant="contained"
-              onClick={handleGoBack}
-              sx={{
-                backgroundColor: theme.palette.primary[2],
-                color: theme.palette.text.primary,
-                border: `1px solid ${theme.palette.primary[5]}`,
-                borderRadius: "10px",
-                "&:hover": {
-                  backgroundColor: theme.palette.primary[3],
-                },
-              }}
-            >
-              Go Back
-            </Button>
+          variant="contained"
+          onClick={handleGoBack}
+          sx={{
+            backgroundColor: theme.palette.primary[2],
+            color: theme.palette.text.primary,
+            border: `1px solid ${theme.palette.primary[5]}`,
+            borderRadius: "10px",
+            "&:hover": {
+              backgroundColor: theme.palette.primary[3],
+            },
+          }}
+        >
+          Go Back
+        </Button>
         <Grid
           item
-          xs={6}
+          xs={10}
           sx={{
             display: "flex",
             justifyContent: "center",
-            alignItems: "flex-start",
+            // alignItems: "flex-start",
+            alignItems: "center",
             width: "100%",
             maxWidth: "100%",
             pt: 4,
+            padding: "10px",
           }}
         >
           <Box
             sx={{
               backgroundColor: theme.palette.primary[2],
               width: "60%",
-              height: "250px",
               borderRadius: "15px",
               padding: "30px",
               display: "flex",
@@ -102,15 +137,52 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
                 startAdornment="$"
               />
             </FormControl>
-            <FormControl sx={{ width: "100%" }}>
+            <FormControl sx={{ width: "100%", marginTop: "20px" }}>
               <InputLabel htmlFor="monthly-budget">
-                Your Budget This Month:
+                Your Total Budget This Month:
               </InputLabel>
               <Input
                 id="monthly-budget"
                 defaultValue="0"
                 onChange={(event) =>
                   setBudget(parseInt(event.target.value, 10))
+                }
+                startAdornment="$"
+              />
+            </FormControl>
+            <Typography
+              variant={"h3"}
+              sx={{ textAlign: "center", marginTop: "10px" }}
+            >
+              How do you want to split up?
+            </Typography>
+            <FormControl sx={{ width: "100%", marginTop: "20px" }}>
+              <InputLabel htmlFor="monthly-rent">Rent:</InputLabel>
+              <Input
+                id="monthly-rent"
+                defaultValue="0"
+                onChange={(event) => setRent(parseInt(event.target.value, 10))}
+                startAdornment="$"
+              />
+            </FormControl>
+            <FormControl sx={{ width: "100%", marginTop: "20px" }}>
+              <InputLabel htmlFor="monthly-food">Food:</InputLabel>
+              <Input
+                id="monthly-food"
+                defaultValue="0"
+                onChange={(event) => setFood(parseInt(event.target.value, 10))}
+                startAdornment="$"
+              />
+            </FormControl>
+            <FormControl sx={{ width: "100%", marginTop: "20px" }}>
+              <InputLabel htmlFor="monthly-transportation">
+                Transportation:
+              </InputLabel>
+              <Input
+                id="monthly-transportation"
+                defaultValue="0"
+                onChange={(event) =>
+                  setTransportation(parseInt(event.target.value, 10))
                 }
                 startAdornment="$"
               />
@@ -122,6 +194,7 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
                 backgroundColor: theme.palette.primary[1],
                 border: `1px solid ${theme.palette.primary[5]}`,
                 borderRadius: "10px",
+                marginTop: "20px",
               }}
               id="go-button"
             >
@@ -129,8 +202,9 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
             </Button>
           </Box>
         </Grid>
-        <Grid
+        {/* <Grid
           item
+          id="logo-grid"
           xs={6}
           sx={{
             display: "flex",
@@ -142,11 +216,11 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
             bottom: "0px",
           }}
         >
-          {/*<Box component="img" src={logo} />*/}
-        </Grid>
+          <Box component="img" src={logo} />
+        </Grid>*/}
       </Grid>
     </Box>
   );
-}
+};
 
 export default OnboardingScreen;
