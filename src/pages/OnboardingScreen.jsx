@@ -21,6 +21,7 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
   const navigate = useNavigate();
 
   const handleSubmitOnboarding = async () => {
+    console.log(`auth uid: ${auth.currentUser.uid}`); 
     await submitOnboardingInformation(income, budget, auth.currentUser.uid);
     setIsOnboardedState(true);
   };
@@ -122,6 +123,7 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
                 border: `1px solid ${theme.palette.primary[5]}`,
                 borderRadius: "10px",
               }}
+              id="go-button"
             >
               Let's Go!
             </Button>
@@ -140,7 +142,7 @@ const OnboardingScreen = ({ setIsOnboardedState }) => {
             bottom: "0px",
           }}
         >
-          <Box component="img" src={logo} />
+          {/*<Box component="img" src={logo} />*/}
         </Grid>
       </Grid>
     </Box>

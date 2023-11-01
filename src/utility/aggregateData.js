@@ -1,15 +1,15 @@
 
 
 export const getExpensesForMonth = (spendingHistory, month) => {
-    return spendingHistory.filter((expense) => new Date(expense.date).getMonth() == month)
+    return spendingHistory.filter((expense) => new Date(expense.date).getMonth() == month);
 }
 //NOT WORKING
 export const getExpensesForDate = (spendingHistory, date) => {
-    console.log("passed in date: \n")
-    console.log(date)
+    console.log("passed in date: \n");
+    console.log(date);
     return spendingHistory.filter((expense) => {
         console.log(`cur expense date: ${expense.date}`); 
-        expense.date === date
+        expense.date === date;
     }); 
 }
 
