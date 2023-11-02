@@ -108,6 +108,7 @@ const MenuContainer = (props) => {
               }}
             >
               <IconButton
+                data-cy="Menu"
                 onClick={handleDrawer}
                 edge="start"
                 sx={{ mr: 2, ...(open && { display: "none" }) }}
@@ -193,7 +194,7 @@ const MenuContainer = (props) => {
             src={photoUrl}
             sx={{ width: "40px", height: "40px", borderRadius: "50%" }}
           />
-          <Typography variant="h6" style={{ color: theme.palette.text[2] }}>
+          <Typography data-cy="Name" variant="h6" style={{ color: theme.palette.text[2] }}>
             {`Hello, ${userName}!`}
           </Typography>
           <IconButton onClick={handleDrawer}>
@@ -228,6 +229,7 @@ const MenuContainer = (props) => {
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton
+              data-cy="insights"
               onClick={() => navigate("/insights")}
               sx={{
                 minHeight: "80px",

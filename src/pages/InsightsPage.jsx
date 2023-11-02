@@ -91,7 +91,7 @@ const InsightsPage = () => {
     <LoadingContainer isLoading={isLoading}>
       <MenuContainer data={dummyData}>
         <Box sx={{ height: "100%", padding: "32px" }}>
-          <Typography variant="h1" sx={{ textAlign: "center" }}>
+          <Typography data-cy="spendingInsights" variant="h1" sx={{ textAlign: "center" }}>
             Spending Insights
           </Typography>
           <BarChart
