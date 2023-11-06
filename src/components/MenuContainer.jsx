@@ -95,7 +95,7 @@ const MenuContainer = (props) => {
 
   return (
     <Box sx={{ display: "flex", height: "100%" }}>
-      <AppBar sx={{ backgroundColor: theme.palette.primary[1] }} open={open}>
+      <AppBar data-testid="MenuComp" sx={{ backgroundColor: theme.palette.primary[1] }} open={open}>
         <Toolbar>
           <Grid container>
             <Grid

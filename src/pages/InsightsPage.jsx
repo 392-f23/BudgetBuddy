@@ -9,7 +9,7 @@ import { db } from "../utility/firebase";
 import LoadingContainer from "../components/LoadingContainer";
 
 const InsightsPage = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [budget, setBudget] = useState(0);
   const [income, setIncome] = useState(0);
   const [aggregateSeries, setAggregateSeries] = useState([]);
@@ -37,10 +37,9 @@ const InsightsPage = () => {
 
     return `${month}-${day}`;
   });
-
   useEffect(() => {
     const init = async () => {
-      setIsLoading(true);
+      setIsLoading(false);
       const uid = localStorage.getItem("uid");
       const userDocRef = doc(db, "users", uid);
       const docSnap = await getDoc(userDocRef);
@@ -48,7 +47,7 @@ const InsightsPage = () => {
       if (docSnap.exists()) {
         const data = docSnap.data();
         const { SpendingHistory: history, budget, income, expenses } = data;
-
+        
         setBudget(budget);
         setIncome(income);
 
@@ -59,7 +58,7 @@ const InsightsPage = () => {
           (sum, [_, value]) => sum + value["total"],
           0
         );
-
+        
         const remainingIncome = budget - totalExpense;
         const spendingPerDay = (remainingIncome / numDaysLeft).toFixed(2);
         const perDay = (budget / numberDays).toFixed(2);
@@ -80,13 +79,13 @@ const InsightsPage = () => {
 
         setAggregateSeries(tempSeries);
       }
-
+      console.log("here")
       setIsLoading(false);
+      
     };
 
     init();
   }, []);
-
   return (
     <LoadingContainer isLoading={isLoading}>
       <MenuContainer data={dummyData}>
