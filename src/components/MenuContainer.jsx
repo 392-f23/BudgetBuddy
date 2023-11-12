@@ -253,6 +253,7 @@ const MenuContainer = (props) => {
                   backgroundColor: theme.palette.primary.main,
                 },
               }}
+              data-cy="Logout"
             >
               <ListItemIcon sx={{ color: "#ffffff" }}>
                 <Logout />
