@@ -43,6 +43,5 @@ describe("testing main home page", async () => {
       expect(pathname).toBe("/home")
       //expect the home page screen to display customized welcome back message! 
       await screen.findByText(/Hello, John Steve/); 
-
     });
 })
