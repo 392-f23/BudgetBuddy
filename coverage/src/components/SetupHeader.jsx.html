@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/assets/dummy_data.js</title>
+    <title>Code coverage report for src/components/SetupHeader.jsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/assets</a> dummy_data.js</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/components</a> SetupHeader.jsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>71/71</span>
+                <span class='fraction'>51/51</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>71/71</span>
+                <span class='fraction'>51/51</span>
             </div>
         
             
@@ -114,27 +114,7 @@
 <a name='L49'></a><a href='#L49'>49</a>
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
-<a name='L52'></a><a href='#L52'>52</a>
-<a name='L53'></a><a href='#L53'>53</a>
-<a name='L54'></a><a href='#L54'>54</a>
-<a name='L55'></a><a href='#L55'>55</a>
-<a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a>
-<a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a>
-<a name='L67'></a><a href='#L67'>67</a>
-<a name='L68'></a><a href='#L68'>68</a>
-<a name='L69'></a><a href='#L69'>69</a>
-<a name='L70'></a><a href='#L70'>70</a>
-<a name='L71'></a><a href='#L71'>71</a>
-<a name='L72'></a><a href='#L72'>72</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L52'></a><a href='#L52'>52</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -185,97 +165,57 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const dummyData = {
-  User: "David",
-  Income: 3500,
-  Budget: {
-    Monthly: 3000,
-    Rent: 1725,
-    Food: 600,
-    Transport: 400,
-  },
-  Expenses: {
-    Rent: {
-      total: 1525,
-      subExpense: {
-        BaseRent: 1300,
-        Utilities: 225,
-      },
-    },
-    Food: {
-      total: 423,
-      subExpense: {
-        Groceries: 300,
-        "Dine-Out": 123,
-      },
-    },
-    Transport: {
-      total: 400,
-      subExpense: {
-        Uber: 250,
-        CTA: 150,
-      },
-    },
-  },
-  SpendingHistory: [
-    {
-      date: "2023-10-01",
-      category: "Rent",
-      subcategory: "BaseRent",
-      amount: 1300,
-    },
-    {
-      date: "2023-10-01",
-      category: "Rent",
-      subcategory: "BaseRent",
-      amount: 225,
-    },
-    {
-      date: "2023-10-02",
-      category: "Food",
-      subcategory: "Groceries",
-      amount: 300,
-    },
-    {
-      date: "2023-10-03",
-      category: "Food",
-      subcategory: "Dine-out",
-      amount: 123,
-    },
-    {
-      date: "2023-10-03",
-      category: "Transport",
-      subcategory: "Uber",
-      amount: 250,
-    },
-    {
-      date: "2023-10-04",
-      category: "Transport",
-      subcategory: "CTA",
-      amount: 150,
-    },
-  ],
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {
+  AppBar,
+  Toolbar,
+  Grid,
+  Box,
+  Typography,
+  useTheme,
+} from "@mui/material";
+&nbsp;
+const SetupHeader = ({ text }) =&gt; {
+  const theme = useTheme();
+&nbsp;
+  return (
+    &lt;AppBar
+      position="static"
+      sx={{ backgroundColor: theme.palette.primary[1] }}
+    &gt;
+      &lt;Toolbar&gt;
+        &lt;Grid container sx={{ pt: 4, pb: 2 }}&gt;
+          &lt;Grid
+            item
+            xs={12}
+            sx={{
+              display: "flex",
+              justifyContent: "flex-start",
+              alignItems: "center",
+            }}
+          &gt;
+            &lt;Box
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                justifyContent: "flex-start",
+              }}
+            &gt;
+              &lt;Typography variant="h1" style={{ color: theme.palette.text[1] }}&gt;
+                BudgetBuddy
+              &lt;/Typography&gt;
+              &lt;Typography variant="h6" style={{ color: theme.palette.text[1] }}&gt;
+                { text }
+              &lt;/Typography&gt;
+            &lt;/Box&gt;
+          &lt;/Grid&gt;
+        &lt;/Grid&gt;
+      &lt;/Toolbar&gt;
+    &lt;/AppBar&gt;
+  );
 };
+&nbsp;
+export default SetupHeader;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->

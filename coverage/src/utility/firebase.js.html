@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25.82% </span>
+                <span class="strong">28.8% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>78/302</span>
+                <span class='fraction'>87/302</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>2/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">13.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/15</span>
+                <span class='fraction'>2/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25.82% </span>
+                <span class="strong">28.8% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>78/302</span>
+                <span class='fraction'>87/302</span>
             </div>
         
             
@@ -440,9 +440,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -509,6 +509,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -524,12 +529,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -741,10 +741,10 @@ const handleLogin = <span class="fstat-no" title="function not covered" >async (
 <span class="cstat-no" title="statement not covered" >    });</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-const checkIfLoggedIn = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const isSignedIn = localStorage.getItem("isSignedIn");</span>
-<span class="cstat-no" title="statement not covered" >  return isSignedIn;</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+const checkIfLoggedIn = () =&gt; {
+  const isSignedIn = localStorage.getItem("isSignedIn");
+  return isSignedIn;
+};
 &nbsp;
 const handleLogOut = <span class="fstat-no" title="function not covered" >(navigate) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  signOut(auth);</span>
@@ -810,13 +810,13 @@ const signInWithGoogle = <span class="fstat-no" title="function not covered" >(u
 <span class="cstat-no" title="statement not covered" >  navigate(0);</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-const isOnboarded = <span class="fstat-no" title="function not covered" >async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const id = localStorage.getItem("uid");</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  if (!id) {</span>
-<span class="cstat-no" title="statement not covered" >    return false;</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" ></span>
+const isOnboarded = async () =&gt; {
+  const id = localStorage.getItem("uid");
+&nbsp;
+  if (!id) {
+    return false;
+  }
+<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span>
 <span class="cstat-no" title="statement not covered" >  const userDocRef = doc(db, "users", id);</span>
 <span class="cstat-no" title="statement not covered" >  const snapshot = await getDoc(userDocRef);</span>
 <span class="cstat-no" title="statement not covered" >  if (snapshot.exists()) {</span>
@@ -831,7 +831,7 @@ const isOnboarded = <span class="fstat-no" title="function not covered" >async (
 <span class="cstat-no" title="statement not covered" >  } else {</span>
 <span class="cstat-no" title="statement not covered" >    return false;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+};
 &nbsp;
 const submitOnboardingInformation = <span class="fstat-no" title="function not covered" >async (</span>
 <span class="cstat-no" title="statement not covered" >  income,</span>
@@ -976,7 +976,7 @@ export {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-11-13T00:26:29.322Z
+                at 2023-11-14T16:27:18.671Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
