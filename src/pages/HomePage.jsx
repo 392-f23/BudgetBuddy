@@ -49,7 +49,6 @@ function HomePage() {
       setTotalExpenses(totalExpenses);
       localStorage.setItem("SpendingHistory", JSON.stringify(SpendingHistory));
     };
-
     init();
     read();
   }, [expensesState]);
