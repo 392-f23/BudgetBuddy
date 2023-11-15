@@ -1,9 +1,9 @@
 import { describe, it, beforeEach, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { isOnboarded, checkIfLoggedIn } from "../utility/firebase";
-import App from "../App";
+import { isOnboarded, checkIfLoggedIn } from "./utility/firebase";
+import App from "./App";
 
-vi.mock("../utility/firebase");
+vi.mock("./utility/firebase");
 
 describe("Check If Directing to Onboarding page for new users", () => {
   beforeEach(() => {
