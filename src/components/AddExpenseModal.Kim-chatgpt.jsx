@@ -8,8 +8,8 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-import { DatePicker } from "mui-mobile-datepicker";
-import { addExpense } from "./utility/firebase";
+import { addExpense } from "../utility/firebase";
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import dayjs from "dayjs";
 
 const categoryMapper = {
@@ -28,7 +28,7 @@ const AddExpenseModal = ({
   expenses,
   setIsExpenseAdded,
 }) => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(dayjs());
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [amount, setAmount] = useState("");
@@ -61,8 +61,18 @@ const AddExpenseModal = ({
 
   return (
     <Modal open={open} onClose={onClose}>
-      <div>
-        <DatePicker value={selectedDate} onChange={setSelectedDate} />
+      <div
+        style={{
+          padding: "20px",
+          width: "60%",
+          height: "auto",
+        }}
+      >
+        <MobileDatePicker
+          value={selectedDate}
+          onChange={(date) => setSelectedDate(date)}
+          renderInput={(props) => <TextField {...props} label="Date" />}
+        />
 
         <FormControl fullWidth>
           <InputLabel>Category</InputLabel>
