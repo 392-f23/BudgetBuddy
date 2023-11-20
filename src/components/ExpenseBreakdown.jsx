@@ -33,6 +33,9 @@ const ExpenseBreakdown = ({
       navigate(0);
     }
   }, [isBudgetUpdated]);
+  useEffect(() => {
+    console.log(budgetCategory)
+  }, []);
 
   return (
     <>
