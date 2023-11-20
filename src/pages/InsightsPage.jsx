@@ -47,7 +47,7 @@ const InsightsPage = () => {
       if (docSnap.exists()) {
         const data = docSnap.data();
         const { SpendingHistory: history, budget, income, expenses } = data;
-        
+
         setBudget(budget);
         setIncome(income);
 
@@ -58,7 +58,7 @@ const InsightsPage = () => {
           (sum, [_, value]) => sum + value["total"],
           0
         );
-        
+
         const remainingIncome = budget - totalExpense;
         const spendingPerDay = (remainingIncome / numDaysLeft).toFixed(2);
         const perDay = (budget / numberDays).toFixed(2);
@@ -79,9 +79,8 @@ const InsightsPage = () => {
 
         setAggregateSeries(tempSeries);
       }
-      console.log("here")
+      console.log("here");
       setIsLoading(false);
-      
     };
 
     init();
@@ -90,7 +89,11 @@ const InsightsPage = () => {
     <LoadingContainer isLoading={isLoading}>
       <MenuContainer data={dummyData}>
         <Box sx={{ height: "100%", padding: "32px" }}>
-          <Typography data-cy="spendingInsights" variant="h1" sx={{ textAlign: "center" }}>
+          <Typography
+            data-cy="spendingInsights"
+            variant="h1"
+            sx={{ textAlign: "center" }}
+          >
             Spending Insights
           </Typography>
           <BarChart
@@ -100,7 +103,11 @@ const InsightsPage = () => {
           <Typography variant="h2" sx={{ pb: 2 }}>
             Spending Recommendations
           </Typography>
-          <Typography variant="body1" sx={{ lineHeight: "2.5", pb: 4 }}>
+          <Typography
+            variant="body1"
+            sx={{ lineHeight: "2.5", pb: 4 }}
+            data-testid="Spending-per-day-recommendation"
+          >
             Based off of your monthly income of ${income} and your budget of $
             {budget}, we recommend spending about ${spendingPerDay} per day.
           </Typography>
