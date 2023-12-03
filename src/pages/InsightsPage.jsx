@@ -79,7 +79,6 @@ const InsightsPage = () => {
 
         setAggregateSeries(tempSeries);
       }
-      console.log("here");
       setIsLoading(false);
     };
 

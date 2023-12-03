@@ -5,13 +5,10 @@ export const getExpensesForMonth = (spendingHistory, month) => {
 };
 
 export const getExpensesForDate = (spendingHistory, date) => {
-    console.log("passed in date: \n")
-    console.log(date)
-    return spendingHistory.filter((expense) => {
-        console.log(`cur expense date: ${expense.date}`); 
-        expense.date === date
-    }); 
-}
+  return spendingHistory.filter((expense) => {
+    expense.date === date;
+  });
+};
 
 export const AggData = (SpendingHistory) => {
   var totalExpenses = 0;
@@ -39,7 +36,7 @@ export const AggData = (SpendingHistory) => {
     },
   };
   //LOOP THROUGH EACH SPENDING HISTORY OBJ => UPDATE TEMPLATE OBJ BASED OFF THIS => MIGHT NEED TO TAKE IN DATE(YYYY-MM-DD) AS PARAM???
-  SpendingHistory.forEach((obj) => {
+  SpendingHistory?.forEach((obj) => {
     template[obj.category].total += parseFloat(obj.amount);
     template[obj.category].subExpense[obj.subcategory] += parseFloat(
       obj.amount
