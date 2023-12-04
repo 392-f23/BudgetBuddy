@@ -16,7 +16,6 @@ import { signOut } from "firebase/auth";
 import { submitOnboardingInformation, auth } from "../utility/firebase";
 
 const OnboardingScreen = ({ setIsOnboardedState }) => {
-  console.log("herro");
   const theme = useTheme();
   const [income, setIncome] = useState(0);
   const [budget, setBudget] = useState(0);

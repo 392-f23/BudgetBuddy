@@ -5,7 +5,13 @@ import InsightsPage from "../pages/InsightsPage"; // Update the import path base
 import "@testing-library/jest-dom"; // Import the jest-dom library for additional matchers
 import { getByText } from "@testing-library/dom"; // Import the getByText function from dom-testing-library
 
+import { fetchUserData } from "../utility/query";
+import { vi } from "vitest";
+
+vi.mock("../utility/query");
+
 test('InsightsPage displays "Spending Insights"', () => {
+  fetchUserData.mockReturnValue(null);
   const { container } = render(
     <MemoryRouter initialEntries={["/insights"]}>
       <InsightsPage />
