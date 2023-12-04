@@ -12,8 +12,10 @@ let originalHandleLogOut = handleLogOut;
 let mockData;
 let originalLocalStorage;
 
-vi.mock('../utility/query');
-vi.mock('../utility/firebase');
+vi.mock("../utility/query");
+vi.mock("../utility/firebase");
+vi.mock("./ChartSection");
+vi.mock("./ExpenseSection");
 
 beforeEach(() => {
   mockData = {
@@ -76,7 +78,7 @@ describe("Logout test", () => {
   it("Pressing the logout button should sign out user, removing all the key, value pairs stored in the localStorage", async () => {
     const route = "/home";
 
-    const { container } =  render(
+    const { container } = render(
       <MemoryRouter initialEntries={[route]}>
         <HomePage />
       </MemoryRouter>

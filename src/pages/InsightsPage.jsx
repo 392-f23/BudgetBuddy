@@ -7,6 +7,7 @@ import { getExpensesForDate } from "../utility/aggregateData";
 import { getDoc, doc } from "firebase/firestore";
 import { db } from "../utility/firebase";
 import LoadingContainer from "../components/LoadingContainer";
+import { fetchUserData } from "../utility/query";
 
 const InsightsPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -41,11 +42,9 @@ const InsightsPage = () => {
     const init = async () => {
       setIsLoading(false);
       const uid = localStorage.getItem("uid");
-      const userDocRef = doc(db, "users", uid);
-      const docSnap = await getDoc(userDocRef);
+      const data = await fetchUserData(uid);
 
-      if (docSnap.exists()) {
-        const data = docSnap.data();
+      if (data) {
         const { SpendingHistory: history, budget, income, expenses } = data;
 
         setBudget(budget);
@@ -79,7 +78,7 @@ const InsightsPage = () => {
 
         setAggregateSeries(tempSeries);
       }
-      console.log("here");
+
       setIsLoading(false);
     };
 

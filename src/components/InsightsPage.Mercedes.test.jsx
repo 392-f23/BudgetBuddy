@@ -60,6 +60,11 @@ class mockDocumantSnap {
   }
 }
 
+function daysInThisMonth() {
+  var now = new Date();
+  return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+}
+
 const mockDoc = new mockDocumantSnap();
 
 beforeEach(() => {
@@ -89,7 +94,7 @@ describe("Insights page daily spending test", () => {
     const recommendedSpendingValue =
       recommendedSpendingTextSubstring.match(/\$([\d.]+)/)[1];
 
-    const expectedSpendingValue = 36.67;
+    const expectedSpendingValue = 1100 / daysInThisMonth();
     expect(parseFloat(recommendedSpendingValue)).toBeCloseTo(
       expectedSpendingValue
     );

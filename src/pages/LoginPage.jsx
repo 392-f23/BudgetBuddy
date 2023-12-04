@@ -45,7 +45,7 @@ function LoginPage() {
               border: `1px solid ${theme.palette.primary[5]}`,
               borderRadius: "10px",
             }}
-            id = "google-auth-button"
+            id="google-auth-button"
           >
             Sign in with Google
           </Button>
